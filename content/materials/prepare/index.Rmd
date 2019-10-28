@@ -1,0 +1,36 @@
+---
+title: 'Pre-workshop preparation'
+aliases: /prep
+date: '2019-10-28'
+categories: []
+tags: []
+summary: 'Welcome to this workshop! Before attending, follow these steps to help things go smoothly.'
+lastmod: '#'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: yes
+projects: []
+weight: 1
+---
+
+Hello! Welcome to [Interactive documents with Shiny](/), pretty soon we'll meet for the two day workshop. :bee:
+
+Before seeing me at the workshop, please follow the steps below to make sure everything is installed and ready to go:
+
+1. If you haven't previously used `tidyverse` packages such as [ggplot2](https://ggplot2.tidyverse.org/) or [dplyr](https://dplyr.tidyverse.org/), learn the basics of data transformation and visualisation. A good resource for this is Garrett Grolemund and Hadley Wickham's [R for Data Science](https://r4ds.had.co.nz/) book.
+
+1. Please bring a laptop that has the following installed:
+
+    + A recent version of R (>=3.6.0), which is available for free at https://cloud.r-project.org/
+    
+    + A recent version of RStudio Desktop (>=1.2), available for free ([RStudio Desktop Open Source License](https://www.rstudio.com/products/rstudio/download/#download))
+    
+    + The R packages we will use, which you can install by connecting to the internet, opening RStudio, and running at the command line:
+
+        ```{r pkg-list, eval=FALSE}
+        install.packages(c("shiny", "usethis", "leaflet", "plotly"))
+        ```
+
+During the workshop I'll provide instructions on how you can download and set up the course material.

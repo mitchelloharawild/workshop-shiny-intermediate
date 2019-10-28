@@ -2,7 +2,7 @@
 header:
   caption: ""
   image: ""
-layout: docs
-title: Courses
+layout: post
+title: Workshop materials
 ---
 

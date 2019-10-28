@@ -38,7 +38,7 @@ hero_media = ""
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "#"
+  url = "materials"
   label = "Workshop materials"
   icon_pack = ""
   icon = ""

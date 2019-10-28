@@ -1,0 +1,26 @@
+---
+title: '03: Extension packages'
+draft: false
+
+# Talk start and end times.
+#   End time can optionally be hidden by prefixing the line with `#`.
+date: "2019-11-04T13:15:00Z"
+date_end: "2019-11-04T16:30:00Z"
+all_day: false
+publishdate: "#"
+
+links:
+- icon: images
+  icon_pack: fas
+  name: slides
+  url: /slides/extensions
+
+lastmod: '#'
+projects: []
+weight: 4
+---
+
+```{r echo=FALSE}
+knitr::include_url("/slides/extensions")
+```
+

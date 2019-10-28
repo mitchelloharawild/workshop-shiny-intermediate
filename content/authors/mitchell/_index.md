@@ -1,8 +1,6 @@
 ---
 authors:
 - mitchell
-bio: My research interests include distributed robotics, mobile computing and programmable
-  matter.
 education:
   courses:
   - course: BCom (Hons) in Econometrics and Business Statistics
@@ -16,12 +14,11 @@ interests:
 - Data analysis
 - Time series forecasting
 - R package development
-- Beekeeping 🐝
-name: Mitchell O'Hara-Wild
+- Beekeeping :bee:
+name: Mitchell O'Hara‑Wild
 organizations:
 - name: Nectric
-  url: ""
-role: Data scientist
+  url: https://nectric.com.au/
 social:
 - icon: home
   icon_pack: fas
