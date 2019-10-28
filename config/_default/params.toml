@@ -2,7 +2,7 @@
 # Documentation: https://sourcethemes.com/academic/
 
 # Color theme.
-color_theme = "orange"
+color_theme = "nectar"
 
 # Enable users to switch between day and night mode?
 day_night = false

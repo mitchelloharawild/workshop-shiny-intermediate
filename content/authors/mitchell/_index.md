@@ -36,7 +36,3 @@ superuser: true
 user_groups:
 - Instructors
 ---
-
-[**
-
-MTODO
