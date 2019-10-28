@@ -105,6 +105,7 @@ class: middle, center
 - hive app
 - marking assistance
 - bad conference search
+- https://benubah.github.io/r-community-explorer/rladies.html
 - other personal examples
 
 ---
