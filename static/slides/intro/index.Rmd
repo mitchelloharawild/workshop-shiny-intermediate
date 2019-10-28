@@ -89,6 +89,8 @@ class: middle, center
 
 [`r fa("twitter")` @mitchoharawild](https://twitter.com/mitchoharawild)
 
+`r fa("heart", fill = "red")` 🐝
+
 ---
 
 # Schedule
@@ -154,3 +156,9 @@ Some ggplot2 output, change aesthetics.
 ---
 
 # File structure for Shiny apps
+
+---
+
+Break time.
+
+Get ysomecoffee, you'll need to be wide awake for the next topic: reactivity.
