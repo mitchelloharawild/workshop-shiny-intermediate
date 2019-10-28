@@ -1,5 +1,5 @@
 ---
-title: '04: Testing applications'
+title: '04: Testing and debugging applications'
 draft: false
 
 # Talk start and end times.

@@ -22,7 +22,7 @@ date: "2019-01-01T00:00:00Z"  # Add today's date.
 | Time          | Activity                                                           |
 |:--------------|:-------------------------------------------------------------------|
 | 09:00 - 09:30 | Arrive and get set up :computer:                                   |
-| 09:30 - 10:45 | Session 1 :ballot_box_with_check: <br> *Testing Shiny Apps*        |
+| 09:30 - 10:45 | Session 1 :ballot_box_with_check: <br> *Testing and debugging Shiny Apps*        |
 | 10:45 - 11:00 | *Morning tea* :tea:                                                |
 | 11:00 - 12:30 | Session 2 :heart_eyes: <br> *Application design and customisation* |
 | 12:30 - 13:15 | *Lunch* :fork_and_knife:                                           |

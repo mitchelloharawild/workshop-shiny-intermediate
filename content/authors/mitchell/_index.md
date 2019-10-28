@@ -14,7 +14,7 @@ interests:
 - Data analysis
 - Time series forecasting
 - R package development
-- Beekeeping :bee:
+- Beekeeping 🐝
 name: Mitchell O'Hara‑Wild
 organizations:
 - name: Nectric

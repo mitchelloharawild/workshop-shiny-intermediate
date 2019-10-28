@@ -77,3 +77,79 @@ theme_set(
 .footnote[
 Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectric.com.au/intermediate-shiny)
 ]
+
+---
+class: middle, center
+
+# Welcome, whoami?
+
+### Mitchell O'Hara-Wild
+
+[`r fa("github")` @mitchelloharawild](https://github.com/mitchelloharawild)
+
+[`r fa("twitter")` @mitchoharawild](https://twitter.com/mitchoharawild)
+
+---
+
+# Schedule
+
+
+---
+
+# The basics of Shiny
+
+---
+
+# Applications of Shiny
+
+- hive app
+- marking assistance
+- bad conference search
+- other personal examples
+
+---
+
+# Basic components of a shiny app
+
+- ui
+- server
+
+---
+
+# First look at an app
+
+---
+
+# Where does this app live?
+
+On the web? How?
+
+---
+
+Open app in web browser via run in external
+
+---
+
+# Inputs and outputs + object IDs
+
+---
+
+# Look at a more complicated app
+
+---
+
+# Cheat sheet
+
+---
+
+# Customise this app with a new input which changes the output
+
+Some ggplot2 output, change aesthetics.
+
+---
+
+# Changing the layout of an app
+
+---
+
+# File structure for Shiny apps
