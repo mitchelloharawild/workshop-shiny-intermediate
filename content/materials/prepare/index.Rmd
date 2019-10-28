@@ -30,7 +30,7 @@ Before seeing me at the workshop, please follow the steps below to make sure eve
     + The R packages we will use, which you can install by connecting to the internet, opening RStudio, and running at the command line:
 
         ```{r pkg-list, eval=FALSE}
-        install.packages(c("shiny", "usethis", "leaflet", "plotly"))
+        install.packages(c("shiny", "tidyverse", "reactlog", "shinytest", "usethis", "shinycssloaders", "shinydashboard", "shinythemes", "shinyjs", "leaflet", "plotly"))
         ```
 
 During the workshop I'll provide instructions on how you can download and set up the course material.

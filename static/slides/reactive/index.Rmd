@@ -1,0 +1,226 @@
+---
+title: "Reactive programming"
+subtitle: "Adding shiny server code."
+author: "Mitchell O'Hara-Wild"
+date: '04/11/2019'
+output:
+  xaringan::moon_reader:
+    css: ["libs/slides.css", "libs/hex.css", "libs/animate.css"]
+    seal: false
+    nature:
+      highlightStyle: github
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false 
+      beforeInit: ["./libs/jquery/jquery.min.js", "./libs/slides.js"]
+      slideNumberFormat: "%current%"
+---
+class: inverse
+background-image: url("resources/title.jpg")
+background-size: cover
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, width = 120)
+
+library(tidyverse)
+library(shiny)
+library(fontawesome)
+
+theme_set(
+  theme_grey(base_size = 16) +
+  theme(
+    legend.position = "bottom",
+    plot.background = element_rect(fill = "transparent"),
+    legend.background = element_rect(fill = "transparent")
+  )
+)
+```
+
+
+```{css, echo=FALSE}
+/* custom.css */
+.left-code {
+  color: #777;
+  width: 40%;
+  height: 92%;
+  float: left;
+}
+.right-plot {
+  width: 58%;
+  float: right;
+  padding-left: 1%;
+}
+```
+
+<ul class="hextile clr">
+	<li>
+    <div>
+      <h1>02</h1>
+      <p style = "padding-top: 30%; font-size: 1.2em">Reactive programming</p>
+    </div>
+  </li>
+  <li>
+    <img src="resources/shiny.svg" alt=""/>
+  </li>
+  <li></li>
+  </li>
+  <li>
+    <div>
+      <p style = "padding-top: 15%; font-size: 1.33em">
+      Mitchell O'Hara‑Wild<br>
+      (Nectric)
+      </p>
+    </div>
+  </li>
+</ul>
+
+.footnote[
+Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectric.com.au/intermediate-shiny)
+]
+
+---
+
+# What is reactive programming?
+
+Imperative/declarative
+
+---
+
+# Example of imperative code with R
+
+```{r}
+x <- 5
+y <- x + 1
+x <- 10
+# What is y? 6 or 11?
+```
+
+---
+
+# Example of reactive code with Shiny
+
+```{r}
+r <- reactiveValues()
+r$x <- 5
+y <- reactive(r$x + 1)
+r$x <- 10
+# What is y? 6 or 11?
+```
+
+---
+
+# Reactivity with inputs and outputs
+
+- Have a shiny input, such as `numericInput("age", label = "Enter your age:", value = 20)`
+- Updates the reactive value input$age
+- Triggers updates of reactive expressions (such as outputs)
+
+---
+
+# Demo
+
+App with repeated calculation
+
+---
+
+# Reactive graph
+
+`reactlog`
+
+---
+
+# Demo
+
+Show reactive graph of app
+
+---
+
+# Invalidating reactive objects
+
+---
+
+# Reactive expressions
+
+`reactive()`
+
+---
+
+# Demo
+
+Update the app to remove code duplication
+
+---
+
+# Demo
+
+Check the updated reactive graph
+
+---
+
+# Reactive sources, conductors, and endpoints
+
+---
+
+# Reactive contexts
+
+Error when using reactive values outside of a reactive context
+
+---
+
+# Your turn
+
+Provide UI, ask to fill in server code
+
+---
+
+# Other reactive functions
+
+---
+
+# Event driven reactivity
+
+fine-grained control of reactivity with `observeEvent()` and `eventReactive()`
+
+---
+
+# isolate
+
+---
+
+# req vs return(NULL)
+
+---
+
+# Rate limiting (debounce/throttle)
+
+---
+
+# invalidateLater() / reactiveTimer()
+
+---
+
+# demos
+
+---
+
+# Dynamic user interface
+
+---
+
+# Updating inputs
+
+---
+
+# Dynamic UI
+
+---
+
+# Beware: infinite loops
+
+---
+
+# Quiz
+
+---
+
+# Lunch time
