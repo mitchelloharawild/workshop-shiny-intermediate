@@ -8,7 +8,7 @@ weight = 10  # Order that this section will appear.
 title = "Interactive documents with Shiny"
 
 # Hero image (optional). Enter filename of an image in the `static/img/` folder.
-hero_media = ""
+hero_media = "bee.jpg"
 
 [design.background]
   # Apply a background color, gradient, or image.
