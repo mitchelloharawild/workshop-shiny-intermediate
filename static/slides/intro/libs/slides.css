@@ -17,8 +17,8 @@ body {
 }
 
 a:hover {
-    border-bottom-color: transparent;
-    color: #0d3b66 !important;
+  border-bottom-color: transparent;
+  color: #0d3b66 !important;
 }
 
 a, a > code {

@@ -98,7 +98,16 @@ class: middle, center
 
 ---
 
-# The basics of Shiny
+# Thdays goals
+
+1. Identify useful applications of shiny apps
+1. Learn how to structure an app
+1. Understand reactive programming
+1. Use tools to troubleshoot existing problems, and test for issues
+
+---
+
+# Te basics of Shiny
 
 ---
 
