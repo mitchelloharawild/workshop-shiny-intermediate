@@ -80,27 +80,6 @@ Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectr
 
 ---
 
-# Recap
-
----
-
-# Server/UI
-
----
-
-# Directory structure
-
----
-
-# Reactive programming
-
----
-
-# Layouts
-
-
----
-
 # Extension packages
 
 (There are a lot!)
@@ -113,7 +92,15 @@ Curated list: https://github.com/nanxstats/awesome-shiny-extensions
 
 ---
 
+# shinythemes
+
+---
+
 # shinydashboard + shinydashboardPlus
+
+---
+
+# shinymaterial
 
 ---
 

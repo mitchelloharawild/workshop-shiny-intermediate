@@ -17,4 +17,5 @@ Related resources:
 * https://github.com/rstudio-education/shiny-jsm18
 * https://github.com/mine-cetinkaya-rundel/shiny-training-2017-05-genentech
 * https://github.com/goknurginer/R-Ladies-shiny-workshop/
+* https://github.com/daattali/advanced-shiny
 * [Cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf)

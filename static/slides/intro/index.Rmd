@@ -107,7 +107,7 @@ class: middle, center
 
 ---
 
-# Te basics of Shiny
+# Teh basics of Shiny
 
 ---
 
