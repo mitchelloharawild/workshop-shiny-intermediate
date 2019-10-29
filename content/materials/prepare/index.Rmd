@@ -33,4 +33,6 @@ Before seeing me at the workshop, please follow the steps below to make sure eve
         install.packages(c("shiny", "tidyverse", "reactlog", "shinytest", "usethis", "shinycssloaders", "shinydashboard", "shinythemes", "shinyjs", "leaflet", "plotly"))
         ```
 
+1. Bring along a shiny app that you've worked on before and would like to improve. If you haven't created a shiny app, you can bring an R script or idea that can an app can be created for.
+
 During the workshop I'll provide instructions on how you can download and set up the course material.
