@@ -9,7 +9,6 @@ h1, h2, h3 {
 
 .remark-slide-content h1 {
   font-size:45px;
-  padding-bottom:20px;
 }
 
 body {
@@ -58,9 +57,133 @@ a, a > code {
   font-size: 80px;
 }
 
+.left-side {
+  height: 100%;
+  width: 33%;
+  padding: 0;
+  margin: 1em 4em 1em 4em;
+}
+
+.left-side .pull-left {
+  float: left;
+  width: 33%;
+  height: 100%;
+  margin-bottom:20px;
+}
+
+.left-side .pull-right {
+  float: right;
+  width: 64%;
+  margin-bottom:20px;
+}
+
+.right-side {
+  height: 100%;
+  width: 33%;
+  padding: 0;
+  margin: 1em 4em 1em 4em;
+}
+
+.right-side .pull-left {
+  float: left;
+  width: 64%;
+  margin-bottom:20px;
+}
+
+.right-side .pull-right {
+  float: right;
+  width: 33%;
+  height: 100%;
+  margin-bottom:20px;
+}
+
+.portrait {
+  padding: 2em;
+}
+
+.portrait img{
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.portrait p{
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  font-size: 6em;
+  background-color: #0d3b66;
+  color: #ee964b;
+  text-align: center;
+}
+
+.bg-blond {
+  background-color: #faf0ca !important;
+}
+
+.bg-yellow {
+  background-color: #f4d35e !important;
+}
+
+.feature {
+  background-color: #faf0ca !important;
+  color: #0d3b66 !important;
+}
+
+.feature h1 {
+  color: #ee964b;
+  text-shadow: 1px 1px 2px #f4d35e;
+  font-size: 4em;
+  font-weight: 700;
+}
+
+.feature h2{
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.topic-starter{
+  background-color: #faf0ca !important;
+  color: #135593 !important;
+  background-image: url("../resources/butterfly-banner.jpg");
+  background-position: top;
+}
+
+.topic-starter h1{
+  padding-top: 38%;
+  text-shadow: 1px 1px 2px #f4d35e;
+  font-size: 4em;
+  font-weight: 700;
+}
+
+.box-12 {
+  width: 100%;
+  border-radius: 25px;
+  padding: 5px 0px 5px 25px;
+  background-color: #ffffff99;
+}
+
+.box-12.opaque {
+  width: 100%;
+  border-radius: 25px;
+  padding: 5px 0px 5px 25px;
+  background-color: #ffffff;
+}
+
+.box-12 p{
+  margin: 10px 20px 0px 0px;
+}
+
 .sticker-float img{
 	height: 200px;
 	float: right;
+}
+
+.float-right{
+  float: right;
 }
 
 .face-border img{
@@ -70,7 +193,6 @@ a, a > code {
 
 .sticker-left img{
 	height: 150px;
-	padding-right: 20px;
 }
 
 .flex-col {
@@ -122,6 +244,10 @@ p, li {
   bottom:33px;
 }
 
+.bottom-margin{
+  margin-top:40%;
+}
+
 .title-slide .remark-slide-number {
   display: none;
 }
@@ -130,6 +256,7 @@ p, li {
 
 .r.remark-code {
   font-size:18px;
+  border-radius: 10px;
 }
 
 .remark-code {
@@ -249,7 +376,6 @@ blockquote {
   padding-left: 1em;
 }
 table {
-  margin: auto;
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
 }
