@@ -30,7 +30,7 @@ Before seeing me at the workshop, please follow the steps below to make sure eve
     + The R packages we will use, which you can install by connecting to the internet, opening RStudio, and running at the command line:
 
         ```{r pkg-list, eval=FALSE}
-        install.packages(c("shiny", "tidyverse", "reactlog", "shinytest", "usethis", "shinycssloaders", "shinydashboard", "shinythemes", "shinyjs", "leaflet", "plotly"))
+        install.packages(c("shiny", "tidyverse", "reactlog", "shinytest", "usethis", "shinycssloaders", "shinydashboard", "shinyWidgets", "mapdeck", "DT", "gt", "shinythemes", "shinyjs", "leaflet", "plotly"))
         ```
 
 1. Bring along a shiny app that you've worked on before and would like to improve. If you haven't created a shiny app, you can bring an R script or idea that can an app can be created for.
