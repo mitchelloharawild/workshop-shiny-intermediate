@@ -330,7 +330,7 @@ If you have time, modify the app to say hello to you.
 
 ]
 
-<div class="countdown" id="timer_5db995ea" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dba5cc8" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -434,7 +434,7 @@ class: feature
 
 Extend the 'Hello World!' app to greet the user's name, rather than 'world'.
 
-1. Add a text input field to provide the user's name
+1. Add a text input field to provide the user's name.
 1. Replace the static 'Hello World!' text with a text output.
 1. Add a text renderer to the server, which creates the output 'Hello {{name}}!'
 
@@ -442,7 +442,7 @@ If you have time, modify the app to say 'Good morning', 'Good afternoon' and 'Go
 
 ]
 
-<div class="countdown" id="timer_5db99752" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dba59ed" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -459,31 +459,666 @@ https://shiny.rstudio.com/images/shiny-cheatsheet.pdf
 
 ---
 
-# Look at a more complicated app
+# A multi-file shiny app
+
+
+```r
+fs::dir_tree("../../apps/01_bob_ross")
+```
+
+```
+## ../../apps/01_bob_ross
+## ├── data
+## │   └── elements-by-episode.csv
+## ├── global.R
+## ├── server.R
+## ├── ui.R
+## └── www
+##     └── joy_of_painting.jpg
+```
+
+--
+
+Most shiny apps are organised into several files.
+
+* `ui.R`: The specification of the user interface
+* `server.R`: The R code to define behaviour
+* `global.R`: Objects creation accessible to both `ui.R` and `server.R`
+* `data/`: Folder for your data
+* `www`: Folder for your web data (images, css, javascript, etc.)
+
+---
+background-image: url("resources/bob_ross.png")
+background-size: contain
+background-position: top
+
+.box-12.bg-blond.bottom-margin.center[
+# 🎨 A happy little app 🎨
+A shiny app for FiveThirtyEight's [*Statistical Analysis of the Work of Bob Ross*](https://fivethirtyeight.com/features/a-statistical-analysis-of-the-work-of-bob-ross/)
+
+Try the app for yourself, you can find it in "apps/01_bob_ross".
+]
 
 ---
 
-# Cheat sheet
+# 🌍 `global.R`: Global objects
+
+```r
+library(tidyverse)
+
+# Tidy the data
+elements &lt;- read_csv("data/elements-by-episode.csv") %&gt;% 
+  separate(EPISODE, c("season", "episode"), sep = c(3,6)) %&gt;% 
+  gather("element", "exists", -season, -episode, -TITLE) %&gt;% 
+  mutate(
+    season = parse_number(season),
+    episode = parse_number(episode),
+    element = str_to_sentence(str_replace_all(element, "_", " ")),
+    TITLE = str_to_sentence(TITLE),
+    exists = as.logical(exists)
+  ) %&gt;% 
+  rename(title = TITLE)
+```
 
 ---
 
-# Customise this app with a new input which changes the output
+# 🎨 `ui.R`: Understanding the UI
 
-Some ggplot2 output, change aesthetics.
+
+```r
+library(shiny)
+fluidPage(
+  titlePanel("Bob Ross painting contents"),
+  sidebarLayout(
+    sidebarPanel(
+      # Joy of painting title image
+      img(src = "joy_of_painting.jpg", width = "100%"),
+      # Season selector
+      sliderInput(inputId = "seasons",
+                  label = "Included seasons:",
+                  min = min(elements$season),
+                  max = max(elements$season),
+                  value = range(elements$season))
+    ),
+    mainPanel(
+      # Plot output
+      "Frequency of elements in paintings",
+      plotOutput(outputId = "plot_proportion", height = "800px"),
+      # Table output
+      "Top 10 most common elements",
+      tableOutput(outputId = "data_proportion")
+    )
+  )
+)
+```
 
 ---
 
-# Changing the layout of an app
+# 🎨 `ui.R`: A two-panel sidebar layout
+
+
+```r
+library(shiny)
+fluidPage(
+  titlePanel("Bob Ross painting contents"),
+* sidebarLayout(
+*   sidebarPanel(
+      # Joy of painting title image
+      img(src = "joy_of_painting.jpg", width = "100%"),
+      # Season selector
+      sliderInput(inputId = "seasons",
+                  label = "Included seasons:",
+                  min = min(elements$season),
+                  max = max(elements$season),
+                  value = range(elements$season))
+*   ),
+*   mainPanel(
+      # Plot output
+      "Frequency of elements in paintings",
+      plotOutput(outputId = "plot_proportion", height = "800px"),
+      # Table output
+      "Top 10 most common elements",
+      tableOutput(outputId = "data_proportion")
+*   )
+* )
+)
+```
 
 ---
 
-# File structure for Shiny apps
+# 🎨 `ui.R`: Add an image from `www` folder
+
+
+```r
+library(shiny)
+fluidPage(
+  titlePanel("Bob Ross painting contents"),
+  sidebarLayout(
+    sidebarPanel(
+*     # Joy of painting title image
+*     img(src = "joy_of_painting.jpg", width = "100%"),
+      # Season selector
+      sliderInput(inputId = "seasons",
+                  label = "Included seasons:",
+                  min = min(elements$season),
+                  max = max(elements$season),
+                  value = range(elements$season))
+    ), 
+    mainPanel(
+      # Plot output
+      "Frequency of elements in paintings",
+      plotOutput(outputId = "plot_proportion", height = "800px"),
+      # Table output
+      "Top 10 most common elements",
+      tableOutput(outputId = "data_proportion")
+    ) 
+  )
+)
+```
+
 
 ---
 
-Break time.
+# 🎨 `ui.R`: Add the season slider
 
-Get some coffee, you'll need to be wide awake for the next topic: reactivity.
+
+```r
+library(shiny)
+fluidPage(
+  titlePanel("Bob Ross painting contents"),
+  sidebarLayout(
+    sidebarPanel(
+      # Joy of painting title image
+      img(src = "joy_of_painting.jpg", width = "100%"),
+*     # Season selector
+*     sliderInput(inputId = "seasons",
+*                 label = "Included seasons:",
+*                 min = min(elements$season),
+*                 max = max(elements$season),
+*                 value = range(elements$season))
+    ), 
+    mainPanel(
+      # Plot output
+      "Frequency of elements in paintings",
+      plotOutput(outputId = "plot_proportion", height = "800px"),
+      # Table output
+      "Top 10 most common elements",
+      tableOutput(outputId = "data_proportion")
+    ) 
+  )
+)
+```
+
+
+---
+
+# 🎨 `ui.R`: Add outputs to the main panel
+
+
+```r
+library(shiny)
+fluidPage(
+  titlePanel("Bob Ross painting contents"),
+  sidebarLayout(
+    sidebarPanel(
+      # Joy of painting title image
+      img(src = "joy_of_painting.jpg", width = "100%"),
+      # Season selector
+      sliderInput(inputId = "seasons",
+                  label = "Included seasons:",
+                  min = min(elements$season),
+                  max = max(elements$season),
+                  value = range(elements$season))
+    ), 
+    mainPanel(
+*     # Plot output
+*     "Frequency of elements in paintings",
+*     plotOutput(outputId = "plot_proportion", height = "800px"),
+*     # Table output
+*     "Top 10 most common elements",
+*     tableOutput(outputId = "data_proportion")
+    ) 
+  )
+)
+```
+
+---
+
+# 💻 `server.R`: Creating interactive behaviour
+
+
+```r
+library(shiny)
+library(tidyverse)
+function(input, output, session) {
+  output$plot_proportion &lt;- renderPlot({
+    elements_prop &lt;- elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion))
+    elements_prop %&gt;% 
+      ggplot(aes(x = proportion, y = element)) + 
+      geom_col() +
+      scale_x_continuous(labels = scales::percent, limits = c(0,1))
+  })
+  output$data_proportion &lt;- renderTable({
+    elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion)) %&gt;% 
+      top_n(10, proportion)
+  })
+}
+```
+
+```
+## function(input, output, session) {
+##   output$plot_proportion &lt;- renderPlot({
+##     elements_prop &lt;- elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion))
+##     elements_prop %&gt;% 
+##       ggplot(aes(x = proportion, y = element)) + 
+##       geom_col() +
+##       scale_x_continuous(labels = scales::percent, limits = c(0,1))
+##   })
+##   output$data_proportion &lt;- renderTable({
+##     elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion)) %&gt;% 
+##       top_n(10, proportion)
+##   })
+## }
+```
+
+---
+
+# 💻 `server.R`: Render to an output
+
+
+```r
+library(shiny)
+library(tidyverse)
+function(input, output, session) {
+* output$plot_proportion &lt;- renderPlot({
+    elements_prop &lt;- elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion))
+    elements_prop %&gt;% 
+      ggplot(aes(x = proportion, y = element)) + 
+      geom_col() +
+      scale_x_continuous(labels = scales::percent, limits = c(0,1))
+  })
+* output$data_proportion &lt;- renderTable({
+    elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion)) %&gt;% 
+      top_n(10, proportion)
+  })
+}
+```
+
+```
+## function(input, output, session) {
+##   output$plot_proportion &lt;- renderPlot({ #&lt;&lt;
+##     elements_prop &lt;- elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion))
+##     elements_prop %&gt;% 
+##       ggplot(aes(x = proportion, y = element)) + 
+##       geom_col() +
+##       scale_x_continuous(labels = scales::percent, limits = c(0,1))
+##   })
+##   output$data_proportion &lt;- renderTable({ #&lt;&lt;
+##     elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion)) %&gt;% 
+##       top_n(10, proportion)
+##   })
+## }
+```
+
+---
+
+# 💻 `server.R`: Filter based on slider inputs
+
+
+```r
+library(shiny)
+library(tidyverse)
+function(input, output, session) {
+  output$plot_proportion &lt;- renderPlot({
+*   elements_prop &lt;- elements %&gt;%
+*     filter(between(season, input$seasons[1], input$seasons[2])) %&gt;%
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion))
+    elements_prop %&gt;% 
+      ggplot(aes(x = proportion, y = element)) + 
+      geom_col() +
+      scale_x_continuous(labels = scales::percent, limits = c(0,1))
+  })
+  output$data_proportion &lt;- renderTable({
+*   elements %&gt;%
+*     filter(between(season, input$seasons[1], input$seasons[2])) %&gt;%
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion)) %&gt;% 
+      top_n(10, proportion)
+  })
+}
+```
+
+```
+## function(input, output, session) {
+##   output$plot_proportion &lt;- renderPlot({
+##     elements_prop &lt;- elements %&gt;% #&lt;&lt;
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% #&lt;&lt;
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion))
+##     elements_prop %&gt;% 
+##       ggplot(aes(x = proportion, y = element)) + 
+##       geom_col() +
+##       scale_x_continuous(labels = scales::percent, limits = c(0,1))
+##   })
+##   output$data_proportion &lt;- renderTable({
+##     elements %&gt;% #&lt;&lt;
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% #&lt;&lt;
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion)) %&gt;% 
+##       top_n(10, proportion)
+##   })
+## }
+```
+
+---
+
+# 💻 `server.R`: Compute and order by proportion
+
+
+```r
+library(shiny)
+library(tidyverse)
+function(input, output, session) {
+  output$plot_proportion &lt;- renderPlot({
+    elements_prop &lt;- elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+*     group_by(element) %&gt;%
+*     summarise(proportion = mean(exists)) %&gt;%
+*     arrange(desc(proportion)) %&gt;%
+*     mutate(element = fct_reorder(element, proportion))
+    elements_prop %&gt;% 
+      ggplot(aes(x = proportion, y = element)) + 
+      geom_col() +
+      scale_x_continuous(labels = scales::percent, limits = c(0,1))
+  })
+  output$data_proportion &lt;- renderTable({
+    elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+*     group_by(element) %&gt;%
+*     summarise(proportion = mean(exists)) %&gt;%
+*     arrange(desc(proportion)) %&gt;%
+*     mutate(element = fct_reorder(element, proportion)) %&gt;%
+      top_n(10, proportion)
+  })
+}
+```
+
+```
+## function(input, output, session) {
+##   output$plot_proportion &lt;- renderPlot({
+##     elements_prop &lt;- elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;%  #&lt;&lt;
+##       summarise(proportion = mean(exists)) %&gt;%  #&lt;&lt;
+##       arrange(desc(proportion)) %&gt;%  #&lt;&lt;
+##       mutate(element = fct_reorder(element, proportion)) #&lt;&lt;
+##     elements_prop %&gt;% 
+##       ggplot(aes(x = proportion, y = element)) + 
+##       geom_col() +
+##       scale_x_continuous(labels = scales::percent, limits = c(0,1))
+##   })
+##   output$data_proportion &lt;- renderTable({
+##     elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;%  #&lt;&lt;
+##       summarise(proportion = mean(exists)) %&gt;% #&lt;&lt;
+##       arrange(desc(proportion)) %&gt;%  #&lt;&lt;
+##       mutate(element = fct_reorder(element, proportion)) %&gt;% #&lt;&lt;
+##       top_n(10, proportion)
+##   })
+## }
+```
+
+---
+
+# 💻 `server.R`: Create the output
+
+
+```r
+library(shiny)
+library(tidyverse)
+function(input, output, session) {
+  output$plot_proportion &lt;- renderPlot({ 
+    elements_prop &lt;- elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion))
+*   elements_prop %&gt;%
+*     ggplot(aes(x = proportion, y = element)) +
+*     geom_col() +
+*     scale_x_continuous(labels = scales::percent, limits = c(0,1))
+  })
+  output$data_proportion &lt;- renderTable({ 
+    elements %&gt;% 
+      filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+      group_by(element) %&gt;% 
+      summarise(proportion = mean(exists)) %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(element = fct_reorder(element, proportion)) %&gt;% 
+*     top_n(10, proportion)
+  })
+}
+```
+
+```
+## function(input, output, session) {
+##   output$plot_proportion &lt;- renderPlot({ 
+##     elements_prop &lt;- elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion))
+##     elements_prop %&gt;% #&lt;&lt;
+##       ggplot(aes(x = proportion, y = element)) + #&lt;&lt;
+##       geom_col() +#&lt;&lt;
+##       scale_x_continuous(labels = scales::percent, limits = c(0,1))#&lt;&lt;
+##   })
+##   output$data_proportion &lt;- renderTable({ 
+##     elements %&gt;% 
+##       filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+##       group_by(element) %&gt;% 
+##       summarise(proportion = mean(exists)) %&gt;% 
+##       arrange(desc(proportion)) %&gt;% 
+##       mutate(element = fct_reorder(element, proportion)) %&gt;% 
+##       top_n(10, proportion) #&lt;&lt;
+##   })
+## }
+```
+
+---
+class: center
+
+.box-12.bg-blond[
+# 🚧 This app has room for improvement! 🚧
+]
+
+# How could we make it better?
+
+--
+
+Remove code duplication
+
+--
+
+Add comments to server code
+
+--
+
+Make it more useful
+
+--
+
+Improve layout of outputs
+
+--
+
+Make it look better
+
+---
+class: feature
+
+# 🌠 Your turn!
+
+.box-12[
+## Make the app more useful! 👨‍🎨 👩‍🎨
+.center[
+![](resources/ross.gif)
+]
+]
+
+
+---
+class: feature
+
+# 🌠 Your turn!
+
+.box-12[
+## Make the app more useful! 👨‍🎨 👩‍🎨
+
+Add a selectize input (`selectizeInput()`) which allows you to focus on paintings which contain specific elements.
+
+The output plot and table should show element frequency of paintings which:
+* Are in the selected season(s)
+* Contain the selected elements
+
+Speedster? There's no need to show 100% frequencies for the selected elements, remove them from the outputs.
+
+]
+
+<div class="countdown" id="timer_5dba5cf2" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+# ⛳ Possible solution
+
+### `ui.R`
+
+
+```r
+# Element selector
+selectizeInput("elements",
+               "Paintings containing:",
+               choices = unique(elements$element),
+               multiple = TRUE)
+```
+
+--
+
+### `server.R`
+
+
+```r
+elements %&gt;% 
+* group_by(season, episode) %&gt;%
+* filter(all(input$elements %in% element[exists])) %&gt;%
+  filter(between(season, input$seasons[1], input$seasons[2])) %&gt;% 
+  ...
+```
+
+--
+
+### Bonus
+
+
+```r
+... %&gt;% 
+  filter(!(element %in% input$elements))
+```
+
+
+---
+
+# 📊 Improving the layout of outputs with tabs
+
+
+```r
+tabsetPanel( 
+  tabPanel("Plot", 
+    "Frequency of elements in paintings",
+    plotOutput("plot_proportion", height = "800px")
+  ), 
+  tabPanel("Table", 
+    # Table output
+    "Top 10 most common elements",
+    tableOutput("data_proportion")
+  )
+)
+```
+
+.center[
+![](resources/ross_tabs.png)
+]
+
+---
+class: feature
+
+# 🕥 Break time!
+
+.box-12[
+## Next topic: reactivity 💥
+
+Get some snacks, you'll need to be wide awake for the next topic!
+
+![reactlog](resources/reactivity.gif)
+]
+
+<div class="countdown" id="timer_5dba5be9" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
