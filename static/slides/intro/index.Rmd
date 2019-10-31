@@ -453,6 +453,40 @@ countdown(minutes = 5L)
 ```
 
 ---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+```{r, eval = FALSE}
+library(shiny)
+ui <- fluidPage(
+  textInput("name", "Enter your name: "),
+  textOutput("greeting")
+)
+server <- function(input, output, session) {
+  output$greeting <- renderText({
+    sprintf("Hello %s!", input$name)
+  })
+}
+shinyApp(ui, server)
+```
+
+--
+
+### Bonus:
+```{r, eval = FALSE}
+output$greeting <- renderText({
+  hour <- lubridate::hour(Sys.time())
+  sprintf("Good %s %s!", 
+          dplyr::case_when(
+            dplyr::between(hour, 6, 11) ~ "morning",
+            dplyr::between(hour, 12, 18) ~ "afternoon",
+            TRUE ~ "night"),
+          input$name)
+})
+```
+
+
+---
 background-image: url("resources/cheatsheet.png")
 background-size: contain
 background-position: top

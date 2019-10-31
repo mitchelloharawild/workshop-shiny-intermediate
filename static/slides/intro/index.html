@@ -330,7 +330,7 @@ If you have time, modify the app to say hello to you.
 
 ]
 
-<div class="countdown" id="timer_5dba5cc8" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dba729c" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -442,9 +442,45 @@ If you have time, modify the app to say 'Good morning', 'Good afternoon' and 'Go
 
 ]
 
-<div class="countdown" id="timer_5dba59ed" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dba7442" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
+
+---
+
+# ⛳ Possible solution
+
+
+```r
+library(shiny)
+ui &lt;- fluidPage(
+  textInput("name", "Enter your name: "),
+  textOutput("greeting")
+)
+server &lt;- function(input, output, session) {
+  output$greeting &lt;- renderText({
+    sprintf("Hello %s!", input$name)
+  })
+}
+shinyApp(ui, server)
+```
+
+--
+
+### Bonus:
+
+```r
+output$greeting &lt;- renderText({
+  hour &lt;- lubridate::hour(Sys.time())
+  sprintf("Good %s %s!", 
+          dplyr::case_when(
+            dplyr::between(hour, 6, 11) ~ "morning",
+            dplyr::between(hour, 12, 18) ~ "afternoon",
+            TRUE ~ "night"),
+          input$name)
+})
+```
+
 
 ---
 background-image: url("resources/cheatsheet.png")
@@ -501,7 +537,7 @@ Try the app for yourself, you can find it in "apps/01_bob_ross".
 
 ---
 
-# 🌍 `global.R`: Global objects
+# 🌎 `global.R`: Global objects
 
 ```r
 library(tidyverse)
@@ -1037,7 +1073,7 @@ Speedster? There's no need to show 100% frequencies for the selected elements, r
 
 ]
 
-<div class="countdown" id="timer_5dba5cf2" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dba737a" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1116,7 +1152,7 @@ Get some snacks, you'll need to be wide awake for the next topic!
 ![reactlog](resources/reactivity.gif)
 ]
 
-<div class="countdown" id="timer_5dba5be9" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dba71d6" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
     </textarea>
