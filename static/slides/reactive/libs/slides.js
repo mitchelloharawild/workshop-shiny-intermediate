@@ -1,8 +1,7 @@
- $(document).ready(function(){
-  slideshow.on('beforeShowSlide', function (slide) {
-    $("video").each(function() {
-      $(this).get(0).currentTime = 0;
-      $(this).get(0).play();
-    });
-  });
- });
+function update_output_text() {
+  document.getElementById("output_server_text").textContent='## [1] "'+document.getElementById('input_user_text').value+'"';
+}
+
+window.addEventListener('load', function() {
+  document.getElementById("input_user_text").onchange = function() {update_output_text()};
+});
