@@ -413,12 +413,30 @@ testApp("path/to/app")
 
 # Creating tests for the Bob Ross gallery
 
-```{r}
+```{r, eval = FALSE}
 library(shinytest)
 recordTest("../../apps/gallery/02_gallery/")
 ```
 
+![testing the gallery](resources/shinytest.png)
 
+---
+
+# Checking that the tests pass
+
+```{r, echo = FALSE}
+library(shinytest)
+```
+
+```{r}
+testApp("../../apps/gallery/02_gallery/")
+```
+
+---
+
+# Modify the app
+
+Check the tests now.
 
 ---
 
