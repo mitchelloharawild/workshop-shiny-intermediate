@@ -1,0 +1,4 @@
+{
+"Special edition: Shiny schism!":[],
+"What is your go-to method to debug a shiny app?":[["Google/StackOverflow",67],["Print/log statements",10],["Breakpoints/browser()",8],["Reactive graph",5],["Ask a friend",4],["R console",3],["Showcase mode",2], ["Web inspector",1]]
+}

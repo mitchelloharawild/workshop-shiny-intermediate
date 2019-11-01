@@ -502,7 +502,7 @@ https://shiny.rstudio.com/images/shiny-cheatsheet.pdf
 # A multi-file shiny app
 
 ```{r}
-fs::dir_tree("../../apps/01_bob_ross")
+fs::dir_tree("../../apps/bob_ross/01_bob_ross")
 ```
 
 --
@@ -524,7 +524,7 @@ background-position: top
 # `r emo::ji("art")` A happy little app `r emo::ji("art")`
 A shiny app for FiveThirtyEight's [*Statistical Analysis of the Work of Bob Ross*](https://fivethirtyeight.com/features/a-statistical-analysis-of-the-work-of-bob-ross/)
 
-Try the app for yourself, you can find it in "apps/01_bob_ross".
+Try the app for yourself, you can find it in "bob_ross/01_bob_ross".
 ]
 
 ---

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Reactive programming</title>
+    <title>03 Troubleshooting and testing shiny apps</title>
     <meta charset="utf-8" />
     <meta name="author" content="Mitchell O’Hara-Wild" />
     <meta name="date" content="2019-04-11" />
+    <link href="index_files/countdown/countdown.css" rel="stylesheet" />
+    <script src="index_files/countdown/countdown.js"></script>
     <link rel="stylesheet" href="libs/slides.css" type="text/css" />
     <link rel="stylesheet" href="libs/hex.css" type="text/css" />
     <link rel="stylesheet" href="libs/animate.css" type="text/css" />
@@ -37,8 +39,8 @@ background-size: cover
 &lt;ul class="hextile clr"&gt;
 	&lt;li&gt;
     &lt;div&gt;
-      &lt;h1&gt;02&lt;/h1&gt;
-      &lt;p style = "padding-top: 30%; font-size: 1.2em"&gt;Reactive programming&lt;/p&gt;
+      &lt;h1&gt;03&lt;/h1&gt;
+      &lt;p style = "padding-top: 30%; font-size: 1.2em"&gt;Bug fixes &amp; Testing&lt;/p&gt;
     &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
@@ -62,147 +64,394 @@ Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectr
 
 ---
 
-# What is reactive programming?
+# 🌈 When Shiny works, it's wonderful!
 
-Imperative/declarative
+&lt;br&gt;&lt;br&gt;
+
+--
+
+# ⛈ When it doesn't, it can be frustrating!
+
+<div class="error">Error in .getReactiveEnvironment()$currentContext() : Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)</div>
+<div class="error">Error: object of type 'closure' is not subsettable</div>
+
+---
+class: topic-starter, center
+
+# Troubleshooting Shiny
+
+(many troubleshooting methods are also appropriate for any code)
+
+---
+class: iframe-page
+
+&lt;iframe src = "feud", style = "width:100%;height:100vh"&gt;&lt;/iframe&gt;
 
 ---
 
-# Example of imperative code with R
+# 🌎 Searching for help online
+
+It goes without saying that internet is useful!
+
+--
+
+For common bugs and error messages, it works great:
+
+1. Copy the error
+1. Paste into search bar
+1. Add 'R' and 'shiny'
+1. Find the answers (probably on StackOverflow!)
+
+--
+
+.sticker-float.img-spin[![](resources/shiny.svg)]
+
+This also works for finding code you *need*!
+
+&gt; "r shiny add spinning image"
+
+---
+
+# 🐈 `cat()`/`print()` out app logs
+
+Adding `print()` or `cat()` statements in your reactive code is an easy way to see what your app is doing.
 
 
 ```r
-x &lt;- 5
-y &lt;- x + 1
-x &lt;- 10
-# What is y? 6 or 11?
+current_painting &lt;- reactive({
+  cat("Current painting is:", paintings$title[rv$painting])
+  paintings[rv$painting,]
+})
+```
+
+You could also add these logs to the browser's JavaScript console using `shinyjs::logjs()`.
+
+---
+
+.center.box-12.bg-blond[
+# 👩‍💻 What is the Javascript console? 👨‍💻
+]
+
+Exactly like your R console, but for Javascript code.
+
+For debugging, it is where JS errors/warnings/messages are found.
+If you're writing JS, you can also run code here.
+
+Press F12 in your web browser to open the console/inspector.
+
+---
+
+# 🔴 Add breakpoints to your code
+
+Breakpoints allow you to pause code right where you want.
+
+They can be added by clicking left of the line number (🔴), or adding the `browser()` function.
+
+--
+
+Using `browser()` is my preferred method. If is especially useful when used conditionally:
+
+
+```r
+if (input$value == something_bad){
+  browser()
+}
+```
+---
+
+# 🔴 Add breakpoints to your code
+
+When browsing paused code, you can look and change any code you want.
+
+Some commands are available when browsing code:
+
+* `n`: **N**ext code statement
+* `c`: **C**ontinue evaluation
+* `f`: **F**inish the current code loop
+
+---
+
+# 📜 Checking the reactive graph
+
+![reactlog](resources/reactivity.gif)
+
+Check materials for the ["reactivity session"](../reactive) if you missed it.
+
+---
+background-image: url("resources/showcase.png")
+background-size: 40%
+background-position: bottom
+
+# 🖼 Showcase mode
+
+Showcase mode displays the app alongside its code. Code will be highlighted as it runs on the server.
+
+Enable showcase with `runApp(display.mode = "showcase")`.
+
+--
+
+https://shiny.rstudio.com/gallery/reactivity.html
+
+---
+
+# 🐞 Look for errors in the consoles
+
+Errors in R code will appear in the R console.
+
+--
+
+Errors also previously appeared in the app, however in newer versions of Shiny they will not (for security reasons).
+
+When debugging, you can disable error sanitisation with:
+
+
+```r
+options(shiny.sanitize.errors = FALSE)
+```
+
+---
+class: feature
+
+# 🌠 Your turn!
+
+.box-12[
+.float-right[
+&lt;img src = resources/yoda-bugs.jpg height = 300px&gt;&lt;/img&gt;
+]
+
+## Troubleshooting time! 👨‍🔧 👩‍🔧
+
+&lt;br&gt;
+
+Open the `starwars` apps folder, and fix the bugs.
+
+There are six broken apps, each with a different issue.
+
+Each app has one type of error.
+
+&lt;br&gt;
+
+]
+
+<div class="countdown" id="timer_5dbbcee0" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
+---
+class: topic-starter, center
+
+# Avoiding errors
+
+(this also works for any code)
+
+---
+
+# 💃 Code style
+
+&lt;br&gt;
+
+Writing good code won't eliminate errors...
+
+--
+
+.float-right[... but it will make them easier to fix.]
+
+--
+
+&lt;br&gt;&lt;br&gt;
+
+---
+
+# 👍 Easy code improvements
+
+## 1. Follow a style guide
+
+Having a **consistent style** in your app makes errors stand out.
+
+**Indentation** is especially important for readability of Shiny apps.
+
+.box-12.bg-blond.center[
+Code styles are so important that the tidyverse has a style guide book!
+https://style.tidyverse.org/
+]
+
+The [`styler` package](https://styler.r-lib.org/) can help re-style old code automatically.
+
+---
+
+# 👍 Easy code improvements
+
+## 2. Remove code duplication
+
+Code repetition is problematic for many reasons:
+
+* Requires repeated computation
+* More places for bugs
+* Updating code is a nightmare
+* More complex to follow workflow
+
+Replace duplicated code with **reactive expressions**.
+
+---
+
+# 👍 Easy code improvements
+
+## 3. Split complex code into smaller steps
+
+A chain of pipes 20 lines long may be impressive...
+
+.float-right[... but it will be harder to debug.]
+
+&lt;br&gt;&lt;hr&gt;&lt;br&gt;
+
+Small code fragments are easier to verify their correctness.
+
+Each code step should achieve one thing only - avoid side effects if possible.
+
+---
+class: iframe-page
+
+&lt;iframe width="100%" height="680px" src="https://www.youtube.com/embed/7oyiPBjLAWY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
+---
+class: feature
+
+# 🌠 Your turn!
+
+.box-12[
+
+## Improve the code style! 💃
+
+&lt;br&gt;
+
+Open the `01_sw_style` app and improve the code's style.
+
+There's also a style related error introduced into the UI - oops!
+
+&lt;br&gt;
+
+]
+
+<div class="countdown" id="timer_5dbbcddf" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: topic-starter, center
+
+# Testing for errors
+
+---
+
+.box-12.center.bg-blond[
+# ❓ Why write tests ❓
+]
+
+&gt; Even if you don’t, someone will test your software
+&gt;
+&gt; [Dave Cheney](https://dave.cheney.net/2019/05/14/why-bother-writing-tests-at-all)
+
+--
+
+1. Tests indicate failure points of your app.
+1. They prevent future changes unknowingly breaking old code.
+1. Bugs should only exist once, don't resurrect them.
+1. A vote of confidence that your app works as expected.
+1. Tests may fail even when your code doesn't - R/packages update, servers change, etc.
+
+---
+
+# ✅ Testing Shiny apps with shinytest
+
+Creating and running tests for an app takes just three steps:
+
+### 1. Launch the app with test recording
+
+
+```r
+library(shinytest)
+
+# Launch the target app (replace with the correct path)
+recordTest("path/to/app")
+```
+
+--
+
+### 2. Use the app, especially exposing edge cases
+
+--
+
+### 3. Check the recorded tests against the app
+
+
+```r
+testApp("path/to/app")
 ```
 
 ---
 
-# Example of reactive code with Shiny
+# Add a feature
 
+---
+
+# Test the app
+
+---
+
+# Fix the bug
+
+---
+
+# Keeping your tests updated
+
+Dynamic data, use `shiny.testmode` option:
 
 ```r
-r &lt;- reactiveValues()
-r$x &lt;- 5
-y &lt;- reactive(r$x + 1)
-r$x &lt;- 10
-# What is y? 6 or 11?
+if (isTRUE(getOption("shiny.testmode"))) {
+  # Load static/dummy data here
+} else {
+  # Load normal dynamic data here
+}
 ```
 
 ---
 
-# Reactivity with inputs and outputs
+Check the app with multiple browsers
 
-- Have a shiny input, such as `numericInput("age", label = "Enter your age:", value = 20)`
-- Updates the reactive value input$age
-- Triggers updates of reactive expressions (such as outputs)
+
 
 ---
+class: feature
 
-# Demo
+# 🏁 Extra time?
 
-App with repeated calculation
+.box-12[
+## Tests your shiny app
 
----
-
-# Reactive graph
-
-`reactlog`
-
----
-
-# Demo
-
-Show reactive graph of app
+1. Try to break your app. Use the most obscure input values.
+1. Add automatic tests to your app with `shinytest`.
+]
 
 ---
+class: feature
 
-# Invalidating reactive objects
+# 🕛 Q&amp;A break!
 
----
+.box-12[
+## Next topic: More reactivity 💥
+]
 
-# Reactive expressions
-
-`reactive()`
-
----
-
-# Demo
-
-Update the app to remove code duplication
-
----
-
-# Demo
-
-Check the updated reactive graph
-
----
-
-# Reactive sources, conductors, and endpoints
-
----
-
-# Reactive contexts
-
-Error when using reactive values outside of a reactive context
-
----
-
-# Your turn
-
-Provide UI, ask to fill in server code
-
----
-
-# Other reactive functions
-
----
-
-# Event driven reactivity
-
-fine-grained control of reactivity with `observeEvent()` and `eventReactive()`
-
----
-
-# isolate
-
----
-
-# req vs return(NULL)
-
----
-
-# Rate limiting (debounce/throttle)
-
----
-
-# invalidateLater() / reactiveTimer()
-
----
-
-# demos
-
----
-
-# Dynamic user interface
-
----
-
-# Updating inputs
-
----
-
-# Dynamic UI
+<div class="countdown" id="timer_5dbbd0c1" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="./libs/jquery/jquery.min.js"></script>
 <script src="./libs/slides.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
+"highlightStyle": "solarized-dark",
 "ratio": "16:9",
 "highlightLines": true,
 "countIncrementalSlides": false,

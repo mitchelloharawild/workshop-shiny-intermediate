@@ -5,6 +5,7 @@ function(input, output, session) {
   
   # 2. Create a reactive expression for the current painting's data
   current_painting <- reactive({
+    cat("Current painting is:", paintings$title[rv$painting])
     paintings[rv$painting,]
   })
   

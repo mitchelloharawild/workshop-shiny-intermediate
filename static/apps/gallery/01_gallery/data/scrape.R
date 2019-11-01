@@ -25,7 +25,7 @@ dl <- paintings %>%
 
 paintings %>% 
   mutate(
-    image = paste0(episode, ".png"),
+    image = paste0(episode, ".jpg"),
     title = str_trim(str_remove_all(title, "\\n"))
   ) %>% 
   write_csv("gallery.csv")

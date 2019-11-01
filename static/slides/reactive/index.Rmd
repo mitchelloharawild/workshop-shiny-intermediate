@@ -182,6 +182,12 @@ The code within `renderText()` is **reactive**.
 
 Whenever `input$name` changes, the output text will **update automatically**.
 
+
+---
+class: topic-starter, center
+
+# Reactive graphs
+
 ---
 
 # `r emo::ji("mag")` A closer look at reactivity with `reactlog`
@@ -264,6 +270,10 @@ class: feature
 countdown(minutes = 3L)
 ```
 
+---
+class: topic-starter, center
+
+# Reactive expressions
 
 ---
 
@@ -488,6 +498,11 @@ output$greetnig <- renderText({
 ```
 
 `r emo::ji("warning")` Warning: despite the typo, the above code produces no errors!
+
+---
+class: topic-starter, center
+
+# Objects in reactive code
 
 ---
 
