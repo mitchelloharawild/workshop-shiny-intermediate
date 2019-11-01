@@ -591,20 +591,125 @@ Observers can be useful but many side-effects can create complex bugs.
 ]
 
 ---
+class: feature
 
-# Your turn
+# `r emo::ji("shooting_star")` Your turn!
 
-Provide UI, ask to fill in server code
+.box-12[
+## Create a gallery of Bob Ross paintings `r emo::ji("picture")`
+
+Write the server code for the `01_gallery` app.
+
+1. Create a reactive value for the current painting's row number
+1. Create a reactive expression that produces the current painting's data
+1. Add a text renderer for the painting title ("S1E1: A Walk in the Woods")
+1. Fill in the image's source to match the current painting
+1. Use `observeEvent()` to make the buttons change the current painting
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 10L)
+```
 
 ---
 
-# Other reactive functions
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: Reactive values and expressions
+
+```{r, eval = FALSE}
+# 1. Create a reactive value for the current painting's row number
+rv <- reactiveValues(painting = 1)
+```
+
+--
+
+```{r, eval = FALSE}
+# 2. Create a reactive expression for the current painting's data
+current_painting <- reactive({
+  paintings[rv$painting,]
+})
+```
 
 ---
 
-# Event driven reactivity
+# `r emo::ji("flag_in_hole")` Possible solution
 
-fine-grained control of reactivity with `observeEvent()` and `eventReactive()`
+### `server.R`: Output renderers
+
+```{r, eval = FALSE}
+# 3. Create a text renderer for the current painting's title
+output$title <- renderText({
+  sprintf(
+    "%s: %s",
+    current_painting()$episode,
+    current_painting()$title
+  )
+})
+```
+
+--
+
+```{r, eval = FALSE}
+# 4. Complete the image renderer's code for the current painting's image
+output$painting <- renderImage({
+  list(src = file.path("data", "images", current_painting()$image))
+}, deleteFile = FALSE)
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: Clicky buttons
+
+```{r}
+# 5. Use observeEvent() to make the buttons switch between paintings
+observeEvent(input$btn_previous, {
+  rv$painting <- max(1, rv$painting - 1)
+})
+
+observeEvent(input$btn_next, {
+  rv$painting <- min(NROW(paintings), rv$painting + 1)
+})
+```
+
+---
+class: feature
+
+# `r emo::ji("checkered_flag")` Extra time?
+
+.box-12[
+## Improve reactivity in your own app
+
+1. Look at your app's reactive graph, can it be made more efficient?
+1. Does your app effectively use tabs for user experience and performance?
+1. Can you simplify code using reactive expressions instead of observers?
+]
+
+---
+class: feature
+
+# `r emo::ji("clock12")` Lunch time!
+
+.box-12[
+## Next topic: troubleshooting and testing `r emo::ji("trophy")`
+
+```{r, echo = FALSE}
+div(class = "error", 
+"Error in .getReactiveEnvironment()$currentContext() : Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)")
+```
+```{r, echo = FALSE}
+div(class = "error", 
+"object of type 'closure' is not subsettable")
+```
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 45L)
+```
+
 
 ---
 
