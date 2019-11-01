@@ -989,6 +989,23 @@ tabsetPanel(
 ---
 class: feature
 
+# `r emo::ji("checkered_flag")` Extra time?
+
+.box-12[
+## Work on your own app
+
+If you haven't brought an app today, create one for your script.
+
+If you already have an app:
+1. Can you add inputs to make it more useful?
+1. Is the layout well organised for the user?
+1. Could you improve your app with a picture?
+
+]
+
+---
+class: feature
+
 # `r emo::ji("clock1030")` Break time!
 
 .box-12[
