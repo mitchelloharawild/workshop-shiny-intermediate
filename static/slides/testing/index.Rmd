@@ -422,7 +422,9 @@ recordTest("../../apps/gallery/02_gallery/")
 
 ---
 
-# Checking that the tests pass
+# `r emo::ji("pray")` Checking that the tests pass
+
+<br><br>
 
 ```{r, echo = FALSE}
 library(shinytest)
@@ -433,16 +435,60 @@ testApp("../../apps/gallery/02_gallery/")
 ```
 
 ---
+class: feature
 
-# Modify the app
+# `r emo::ji("shooting_star")` Your turn!
 
-Check the tests now.
+.box-12[
+
+## Modify the gallery `r emo::ji("wrench")`
+
+What happens when tests fail?
+
+1. Open the 02_gallery app
+1. Change the ui in any way (perhaps change the title)
+1. Re-run the tests
+
+<br>
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 1L, seconds = 30L)
+```
 
 ---
 
-# Keeping your tests updated
+# `r emo::ji("slider")` The shinytest diff tool
 
-Dynamic data, use `shiny.testmode` option:
+Neat tool for visualising changes made to the app.
+
+Are they the changes you want?
+
+![](resources/shinydiff.png)
+
+---
+
+# `r emo::ji("bee")` Testing in a dynamic environment
+
+## Controlling randomness
+
+If your app is random, output will always differ.
+For consistent test environments, set the random seed via the recorder UI.
+
+![](resources/shinytest-seed.png)
+
+
+---
+
+# `r emo::ji("bee")` Testing in a dynamic environment
+
+## Other dynamic app behaviour
+
+When testing, `getOption("shiny.testmode")` will be `TRUE`.
+
+You can use this to load static variables or data sources.
+
 ```{r, eval = FALSE}
 if (isTRUE(getOption("shiny.testmode"))) {
   # Load static/dummy data here
@@ -453,9 +499,20 @@ if (isTRUE(getOption("shiny.testmode"))) {
 
 ---
 
-Check the app with multiple browsers
+# `r emo::ji("bee")` Testing in a dynamic environment
 
+## Non-app dynamic environments 
 
+--
+
+1. Web browsers (Chrome/Firefox/Safari/Edge/Other?)
+1. Operating systems (Windows/Mac/Other?)
+1. Devices (Desktop/Mobile?)
+1. Country of origin
+
+<br>
+
+### These 'environment variables' are much harder to test.
 
 ---
 class: feature
@@ -472,7 +529,9 @@ class: feature
 ---
 class: feature
 
-# `r emo::ji("clock12")` Q&A break!
+# `r emo::ji("clock230")` Q&A break!
+
+<br><br><br>
 
 .box-12[
 ## Next topic: More reactivity `r emo::ji("boom")`

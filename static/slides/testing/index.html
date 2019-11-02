@@ -89,7 +89,7 @@ class: iframe-page
 
 ---
 
-# 🌎 Searching for help online
+# 🌐 Searching for help online
 
 It goes without saying that internet is useful!
 
@@ -233,7 +233,7 @@ Each app has one type of error.
 
 ]
 
-<div class="countdown" id="timer_5dbbd5b7" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe14e3" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -333,7 +333,7 @@ There's also a style related error introduced into the UI - oops!
 
 ]
 
-<div class="countdown" id="timer_5dbbd3de" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe178e" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -405,7 +405,9 @@ recordTest("../../apps/gallery/02_gallery/")
 
 ---
 
-# Checking that the tests pass
+# 🙏 Checking that the tests pass
+
+&lt;br&gt;&lt;br&gt;
 
 
 
@@ -420,10 +422,60 @@ testApp("../../apps/gallery/02_gallery/")
 ```
 
 ---
+class: feature
 
-# Keeping your tests updated
+# 🌠 Your turn!
 
-Dynamic data, use `shiny.testmode` option:
+.box-12[
+
+## Modify the gallery 🔧
+
+What happens when tests fail?
+
+1. Open the 02_gallery app
+1. Change the ui in any way (perhaps change the title)
+1. Re-run the tests
+
+&lt;br&gt;
+
+]
+
+<div class="countdown" id="timer_5dbe14c9" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
+</div>
+
+---
+
+# 🎚 The shinytest diff tool
+
+Neat tool for visualising changes made to the app.
+
+Are they the changes you want?
+
+![](resources/shinydiff.png)
+
+---
+
+# 🐝 Testing in a dynamic environment
+
+## Controlling randomness
+
+If your app is random, output will always differ.
+For consistent test environments, set the random seed via the recorder UI.
+
+![](resources/shinytest-seed.png)
+
+
+---
+
+# 🐝 Testing in a dynamic environment
+
+## Other dynamic app behaviour
+
+When testing, `getOption("shiny.testmode")` will be `TRUE`.
+
+You can use this to load static variables or data sources.
+
 
 ```r
 if (isTRUE(getOption("shiny.testmode"))) {
@@ -435,9 +487,20 @@ if (isTRUE(getOption("shiny.testmode"))) {
 
 ---
 
-Check the app with multiple browsers
+# 🐝 Testing in a dynamic environment
 
+## Non-app dynamic environments 
 
+--
+
+1. Web browsers (Chrome/Firefox/Safari/Edge/Other?)
+1. Operating systems (Windows/Mac/Other?)
+1. Devices (Desktop/Mobile?)
+1. Country of origin
+
+&lt;br&gt;
+
+### These 'environment variables' are much harder to test.
 
 ---
 class: feature
@@ -454,13 +517,15 @@ class: feature
 ---
 class: feature
 
-# 🕛 Q&amp;A break!
+# 🕝 Q&amp;A break!
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
 
 .box-12[
 ## Next topic: More reactivity 💥
 ]
 
-<div class="countdown" id="timer_5dbbd396" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe1506" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
     </textarea>
