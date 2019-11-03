@@ -57,7 +57,7 @@ theme_set(
 	<li>
     <div>
       <h1>02</h1>
-      <p style = "padding-top: 30%; font-size: 1.2em">Reactive programming</p>
+      <p style = "padding-top: 30%; font-size: 1.2em">Reactive programming I</p>
     </div>
   </li>
   <li>
@@ -724,52 +724,3 @@ div(class = "error",
 ```{r, echo = FALSE}
 countdown(minutes = 45L)
 ```
-
-
----
-
-# isolate
-
----
-
-# req vs return(NULL)
-
----
-
-# Rate limiting (debounce/throttle)
-
----
-
-# invalidateLater() / reactiveTimer()
-
----
-
-# File monitoring
-
----
-
-# demos
-
----
-
-# Dynamic user interface
-
----
-
-# Updating inputs
-
----
-
-# Dynamic UI
-
----
-
-# Beware: infinite loops
-
----
-
-# Quiz
-
----
-
-# Lunch time

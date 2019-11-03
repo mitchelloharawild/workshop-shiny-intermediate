@@ -40,7 +40,7 @@ background-size: cover
 	&lt;li&gt;
     &lt;div&gt;
       &lt;h1&gt;02&lt;/h1&gt;
-      &lt;p style = "padding-top: 30%; font-size: 1.2em"&gt;Reactive programming&lt;/p&gt;
+      &lt;p style = "padding-top: 30%; font-size: 1.2em"&gt;Reactive programming I&lt;/p&gt;
     &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
@@ -168,6 +168,12 @@ The code within `renderText()` is **reactive**.
 
 Whenever `input$name` changes, the output text will **update automatically**.
 
+
+---
+class: topic-starter, center
+
+# Reactive graphs
+
 ---
 
 # 🔍 A closer look at reactivity with `reactlog`
@@ -249,10 +255,14 @@ class: feature
 &gt; When making a reactive graph of a new app, you should reset the reactive log. This is done using `reactlogReset()`
 ]
 
-<div class="countdown" id="timer_5dbb8582" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe17d5" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
+---
+class: topic-starter, center
+
+# Reactive expressions
 
 ---
 
@@ -388,7 +398,7 @@ Extension task: what happens in the reactive graph when you switch tabs?
 
 ]
 
-<div class="countdown" id="timer_5dbb86b2" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe168a" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">07</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -508,6 +518,11 @@ output$greetnig &lt;- renderText({
 ```
 
 ⚠️ Warning: despite the typo, the above code produces no errors!
+
+---
+class: topic-starter, center
+
+# Objects in reactive code
 
 ---
 
@@ -632,7 +647,7 @@ Write the server code for the `01_gallery` app.
 1. Use `observeEvent()` to make the buttons change the current painting
 ]
 
-<div class="countdown" id="timer_5dbb8404" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe185f" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -707,6 +722,19 @@ observeEvent(input$btn_next, {
 ---
 class: feature
 
+# 🏁 Extra time?
+
+.box-12[
+## Improve reactivity in your own app
+
+1. Look at your app's reactive graph, can it be made more efficient?
+1. Does your app effectively use tabs for user experience and performance?
+1. Can you simplify code using reactive expressions instead of observers?
+]
+
+---
+class: feature
+
 # 🕛 Lunch time!
 
 .box-12[
@@ -717,58 +745,9 @@ class: feature
 
 ]
 
-<div class="countdown" id="timer_5dbb8586" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbe15e4" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">45</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
-
-
----
-
-# isolate
-
----
-
-# req vs return(NULL)
-
----
-
-# Rate limiting (debounce/throttle)
-
----
-
-# invalidateLater() / reactiveTimer()
-
----
-
-# File monitoring
-
----
-
-# demos
-
----
-
-# Dynamic user interface
-
----
-
-# Updating inputs
-
----
-
-# Dynamic UI
-
----
-
-# Beware: infinite loops
-
----
-
-# Quiz
-
----
-
-# Lunch time
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
