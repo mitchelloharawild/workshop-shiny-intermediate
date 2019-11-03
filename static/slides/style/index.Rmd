@@ -1,5 +1,5 @@
 ---
-title: "Style customisation for Shiny apps"
+title: "05 Style customisation for Shiny apps"
 subtitle: "Brief intro to CSS, HTML and Bootstrap"
 author: "Mitchell O'Hara-Wild"
 date: '05/11/2019'
@@ -8,7 +8,7 @@ output:
     css: ["libs/slides.css", "libs/hex.css", "libs/animate.css"]
     seal: false
     nature:
-      highlightStyle: github
+      highlightStyle: solarized-dark
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false 
@@ -24,6 +24,7 @@ options(htmltools.dir.version = FALSE, width = 120)
 
 library(tidyverse)
 library(shiny)
+library(countdown)
 library(fontawesome)
 
 theme_set(
@@ -79,8 +80,96 @@ Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectr
 ]
 
 ---
+class: bg-yellow feature
 
-Designs and layouts matter!
+# `r emo::ji("target")` Today's goals
+
+<br>
+
+.box-12.larger[
+1. Customise the **look and feel** of apps
+1. Learn the **languages of the web**
+1. Use **extension packages** to add functionality
+1. **Apply** the workshop content to your own apps
+]
+
+---
+
+.pull-left[
+Workshop day 1
+
+| Time          | Activity                                                      |
+|:--------------|:--------------------------------------------------------------|
+| 09:00 - 09:30 | Arrive and get set up `r emo::ji("computer")`                              |
+| 09:30 - 10:45 | Session 1 `r emo::ji("sparkles")` <br> *Introduction to Shiny*             |
+| 10:45 - 11:00 | *Morning tea* `r emo::ji("tea")`                                    |
+| 11:00 - 12:30 | Session 2 `r emo::ji("boom")` <br> *Reactive programming I*                |
+| 12:30 - 13:15 | *Lunch* `r emo::ji("fork_and_knife")`                                      |
+| 13:15 - 14:45 | Session 3 `r emo::ji("trophy")` <br> *Troubleshooting and testing*         |
+| 14:45 - 15:00 | *Q&A break* `r emo::ji("question")`                                        |
+| 15:00 - 16:30 | Session 4 `r emo::ji("boom")` <br> *Reactive programming II*               |
+
+]
+
+.pull-right[
+Workshop day 2
+
+| Time          | Activity                                                      |
+|:--------------|:--------------------------------------------------------------|
+| 09:00 - 09:30 | Arrive and get set up `r emo::ji("computer")`                          |
+| 09:30 - 10:45 | Session 1 `r emo::ji("art")` <br> *Application design and customisation*   |
+| 10:45 - 11:00 | *Morning tea* `r emo::ji("tea")`                                           |
+| 11:00 - 12:30 | Session 2 `r emo::ji("link")` <br> *Doing more with extension packages*    |
+| 12:30 - 13:15 | *Lunch* `r emo::ji("fork_and_knife")`                                      |
+| 13:15 - 15:00 | Session 3 `r emo::ji("tada")` <br> *Work on your own Shiny app*            |
+]
+
+---
+class: topic-starter, center
+
+# Quick recap
+
+---
+class: topic-starter, center
+
+# Designing for the web
+
+---
+background-image: url("resources/arngren.png")
+background-size: contain
+background-position: top
+
+.box-12.bg-blond.bottom-margin.center[
+# App design and layout is important!
+]
+
+---
+background-image: url("resources/bootstrap.png")
+background-size: contain
+background-position: top
+
+.box-12.bg-blond.bottom-margin.center[
+# Shiny layouts are built with Bootstrap
+
+https://getbootstrap.com/
+]
+
+---
+
+# `r emo::ji("art")` Why use Bootstrap?
+
+It's **simple** to create **responsive** layouts for the web.
+
+Bootstrap components allow easy composition of pleasant interfaces.
+
+It is widely used on the web, making many themes and help available online.
+
+--
+
+The framework achieves responsive design with a **grid based system**.
+
+[![bootstrap grid](resources/bs_grid.png)](https://helenaboitsova.com/uikit-grid-accordance-to-bootstrap-grid/)
+
 
 ---
 
@@ -93,13 +182,19 @@ Designs and layouts matter!
 
 ---
 
-# Bootstrap
-
----
-
-# Rows and columns
+# The bootstrap grid
 
 Grid based layouts
+
+```{r, eval = FALSE}
+fluidPage(
+  fluidRow(
+    column(6, "content"),
+    column(6, "content")
+  )
+)
+```
+
 
 ---
 
@@ -109,15 +204,48 @@ Grid based layouts
 
 # Tabs and nav panels
 
+```{r}
+tabsetPanel()
+navlistPanel()
+tabPanel()
+```
+
+
 ---
 
 # shinythemes
 
 ---
 
-# The language of the web
+# Changing ggplot2 colour scheme
 
-HTML/CSS/JS
+```{r}
++ theme()
+
+theme_set(
+  theme_grey(base_size = 16) +
+  theme(
+    legend.position = "bottom",
+    plot.background = element_rect(fill = "transparent"),
+    legend.background = element_rect(fill = "transparent")
+  )
+)
+```
+
+
+---
+
+# The languages of the web
+
+Shiny is great as it allows you to create useful webpages by writing in one language.
+
+
+### HTML
+
+### CSS
+
+### Javascript
+
 
 ---
 
@@ -135,16 +263,40 @@ A series of tags of the form:
 <tag attr_name = attr_content> child_content </tag>
 ```
 
----
-
-# Markdown -> HTML
+**Most** tags have a starting (`<tag>`) and ending (`</tag>`) tag, and attributes are specified in the starting tag.
 
 ---
 
-# Add an image to your app
+# Writing tags with `htmltools`
 
-1. Recall where images live in a shiny app directory
-1. Use the `img()` tag to include the image
+```{r}
+img(src = "resources/shiny.svg")
+a(href = "https://www.nectric.com.au", emo::ji("bee"))
+```
+
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Add a links to your app
+
+The website https://www.twoinchbrush.com/ provides a collection of information about each Bob Ross painting. This is where the gallery's images are from, however each painting's page provides more information (paints used and video URL).
+
+Use uiOutput() and renderUI() to add links to the painting's URL on twoinchbrush.com.
+]
+
+---
+
+# Classes and IDs
+
+Classes are used to associate a tag with a group.
+IDs are used to uniquely identify a tag.
+
+Classes can be used to give content groups a style.
+InputIDs provided to shiny are used as the ID for the field's tag.
 
 ---
 
@@ -174,9 +326,41 @@ element>element   |  `div > p`       |      Select all &lt;p&gt; tags with &lt;d
 
 ---
 
+# `r emo::ji("detective")` Webpage inspector, find that selector!
+
+Knowing how to identify elements on the web has several uses:
+
+1. Changing the style of the element (what we're doing!)
+1. Modifying the element with Javascript
+1. Scraping data from the web
+
+It also allows you to see the style applied to existing attributes.
+
+Open the Bob Ross gallery app with your preferred web browser.
+
+---
+
 # CSS property-value pairs
 
-`color`, `font-size`, `text-align`, `background-color`.
+There are hundreds of properties which can be specified using CSS.
+
+Learning all of these properties is not necessary.
+
+Just add 'css' into the search term for all the help you need - fortunately it is 
+
+`color`, `font-size`, `text-align`, `background-color`, `margin`, `padding`.
+
+---
+
+Choosing the right colours
+
+In most organisations a design guide will help you create the right style.
+
+If not, choosing the right colours can be *really* difficult!
+
+One recommendation is to use a colour palette generator, such as https://coolors.co/.
+
+Be careful when designing a colour scheme for your app, to ensure that it is accessible to colourblind users.
 
 ---
 
@@ -194,3 +378,29 @@ Writing HTML and CSS directly allows you to do anything in Shiny that is possibl
 At the cost of long, complicated and difficult to write apps.
 
 It is easy to improve app behaviour using higher level functions.
+
+---
+class: feature
+
+# `r emo::ji("checkered_flag")` Extra time?
+
+.box-12[
+## Improve the look and feel of your app
+
+1. Think about the layout of your app's inputs and outputs - improve if needed.
+1. Add a CSS file and customise the colours.
+1. Modify the theme for your plots.
+]
+
+---
+class: feature
+
+# `r emo::ji("clock1030")` Break time!
+
+.box-12[
+## Next topic: extension packages `r emo::ji("link")`
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 15L)
+```
