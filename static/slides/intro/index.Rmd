@@ -176,6 +176,11 @@ class: bg-yellow feature
 1. **Test apps** for potential bugs
 ]
 
+# `r emo::ji("present")` Today's apps
+
+```{r, eval = FALSE}
+usethis::use_course("workshop.nectric.com.au/intermediate-shiny/day1.zip")
+```
 
 ---
 class: topic-starter, center
@@ -502,7 +507,7 @@ https://shiny.rstudio.com/images/shiny-cheatsheet.pdf
 # A multi-file shiny app
 
 ```{r}
-fs::dir_tree("../../apps/bob_ross/01_bob_ross")
+fs::dir_tree("../../apps/day_1/bob_ross/01_bob_ross")
 ```
 
 --

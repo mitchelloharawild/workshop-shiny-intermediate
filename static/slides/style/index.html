@@ -110,6 +110,11 @@ Workshop day 2
 ---
 class: topic-starter, center
 
+# Quick recap
+
+---
+class: topic-starter, center
+
 # Designing for the web
 
 ---
@@ -122,15 +127,6 @@ background-position: top
 ]
 
 ---
-
-# Shiny page layouts
-
-* `fluidPage()` 
-* `fixedPage()`
-* `navbarPage()`
-* `fillPage()`
-
----
 background-image: url("resources/bootstrap.png")
 background-size: contain
 background-position: top
@@ -138,7 +134,7 @@ background-position: top
 .box-12.bg-blond.bottom-margin.center[
 # Shiny layouts are built with Bootstrap
 
-https://getbootstrap.com/
+https://getbootstrap.com/docs/3.4/
 ]
 
 ---
@@ -149,38 +145,119 @@ It's **simple** to create **responsive** layouts for the web.
 
 Bootstrap components allow easy composition of pleasant interfaces.
 
---
+It is widely used on the web, making many themes and help available online.
 
-The framework achieves responsive design with a grid based system.
+Themes: https://bootswatch.com/
 
-[![bootstrap grid](resources/bs_grid.png)](https://helenaboitsova.com/uikit-grid-accordance-to-bootstrap-grid/)
+Help: https://stackoverflow.com/questions/tagged/bootstrap-4
 
 ---
 
-# Rows and columns
+# 🏡 Page layouts: the home for content
 
+Shiny offers several page layouts which all use Bootstrap.
 
+.pull-left[
+* `fluidPage()` 
+* `fillPage()`
+]
+.pull-right[
+* `navbarPage()`
+* `fixedPage()`
+]
 
-Grid based layouts
+--
+
+We've seen `fluidPage()` in examples as provides a nice foundation.
+
+`fillPage()` is similar to `fluidPage()` but ensures height coverage.
+
+`navbarPage()` is `fluidPage()` with a top navigation bar.
+
+`fixedPage()` keeps the *grid* width fixed for various display sizes.
+
+---
+
+# 🔲 The bootstrap grid
+
+The framework achieves responsive design with a **grid based system**.
+
+[![bootstrap grid](resources/bs_grid.png)](https://helenaboitsova.com/uikit-grid-accordance-to-bootstrap-grid/)
+
+The grid contains **12 columns** which content may span across.
+
+---
+
+# 🔲 The bootstrap grid
 
 
 ```r
 fluidPage(
   fluidRow(
-    column(6, "content"),
-    column(6, "content")
+    column(6, wellPanel("First content")),
+    column(6, wellPanel("Second content"))
+  ),
+  fluidRow(
+    column(3, wellPanel("Short content")),
+    column(9, wellPanel("Loooong content"))
+  ),
+  do.call(fluidRow, rep(list(column(1, wellPanel("1"))), 12))
+)
+```
+
+![r output bootstrap grid](resources/bs_grid_r.png)
+
+---
+
+# 🔲 The bootstrap grid
+
+Grids can also be used within grids!
+
+
+```r
+fluidPage(
+  fluidRow(
+    column(3, wellPanel("Ordinary column")),
+    column(9, wellPanel("This column has  more columns",
+                        fluidRow(column(6, wellPanel(h1(emo::ji("bee")))),
+                                 column(6, wellPanel(h1(emo::ji("honey")))))
+    ))
   )
 )
 ```
 
+![Nested bootstrap grid](resources/bs_nested_r.png)
 
 ---
 
-# Nesting of grids
+# 🥾 Bootstrap components
 
+The previous examples use a `wellPanel()` to display the columns.
+
+These are just a few of many components made available by Bootstrap.
+
+&lt;hr&gt;
+
+--
+
+The shiny package only provides a few essential components, however more are accessible by writing the HTML directly.
+
+.center.box-12.bg-blond[
+Find all available Bootstrap components here:  
+https://getbootstrap.com/docs/3.4/components/
+]
 ---
+class: feature
 
-# Tabs and nav panels
+# 🌠 Your turn!
+
+.box-12[
+## Add a links to your app
+
+The website https://www.twoinchbrush.com/ provides a collection of information about each Bob Ross painting. This is where the gallery's images are from, however each painting's page provides more information (paints used and video URL).
+
+Use uiOutput() and renderUI() to add links to the painting's URL on twoinchbrush.com.
+]
 
 ---
 
@@ -188,9 +265,36 @@ fluidPage(
 
 ---
 
-# The language of the web
+# Changing ggplot2 colour scheme
 
-HTML/CSS/JS
+
+```r
++ theme()
+
+theme_set(
+  theme_grey(base_size = 16) +
+  theme(
+    legend.position = "bottom",
+    plot.background = element_rect(fill = "transparent"),
+    legend.background = element_rect(fill = "transparent")
+  )
+)
+```
+
+
+---
+
+# The languages of the web
+
+Shiny is great as it allows you to create useful webpages by writing in one language.
+
+
+### HTML
+
+### CSS
+
+### JavaScript
+
 
 ---
 
@@ -208,16 +312,48 @@ A series of tags of the form:
 &lt;tag attr_name = attr_content&gt; child_content &lt;/tag&gt;
 ```
 
----
-
-# Markdown -&gt; HTML
+**Most** tags have a starting (`&lt;tag&gt;`) and ending (`&lt;/tag&gt;`) tag, and attributes are specified in the starting tag.
 
 ---
 
-# Add an image to your app
+# Writing tags with `htmltools`
 
-1. Recall where images live in a shiny app directory
-1. Use the `img()` tag to include the image
+
+```r
+img(src = "resources/shiny.svg")
+```
+
+<img src="resources/shiny.svg"/>
+
+```r
+a(href = "https://www.nectric.com.au", emo::ji("bee"))
+```
+
+<a href="https://www.nectric.com.au">🐝</a>
+
+
+---
+class: feature
+
+# 🌠 Your turn!
+
+.box-12[
+## Add a links to your app
+
+The website https://www.twoinchbrush.com/ provides a collection of information about each Bob Ross painting. This is where the gallery's images are from, however each painting's page provides more information (paints used and video URL).
+
+Use uiOutput() and renderUI() to add links to the painting's URL on twoinchbrush.com.
+]
+
+---
+
+# Classes and IDs
+
+Classes are used to associate a tag with a group.
+IDs are used to uniquely identify a tag.
+
+Classes can be used to give content groups a style.
+InputIDs provided to shiny are used as the ID for the field's tag.
 
 ---
 
@@ -247,9 +383,41 @@ element&gt;element   |  `div &gt; p`       |      Select all &amp;lt;p&amp;gt; t
 
 ---
 
+# 🕵 Webpage inspector, find that selector!
+
+Knowing how to identify elements on the web has several uses:
+
+1. Changing the style of the element (what we're doing!)
+1. Modifying the element with JavaScript
+1. Scraping data from the web
+
+It also allows you to see the style applied to existing attributes.
+
+Open the Bob Ross gallery app with your preferred web browser.
+
+---
+
 # CSS property-value pairs
 
-`color`, `font-size`, `text-align`, `background-color`.
+There are hundreds of properties which can be specified using CSS.
+
+Learning all of these properties is not necessary.
+
+Just add 'css' into the search term for all the help you need - fortunately it is 
+
+`color`, `font-size`, `text-align`, `background-color`, `margin`, `padding`.
+
+---
+
+Choosing the right colours
+
+In most organisations a design guide will help you create the right style.
+
+If not, choosing the right colours can be *really* difficult!
+
+One recommendation is to use a colour palette generator, such as https://coolors.co/.
+
+Be careful when designing a colour scheme for your app, to ensure that it is accessible to colourblind users.
 
 ---
 
@@ -290,7 +458,7 @@ class: feature
 ## Next topic: extension packages 🔗
 ]
 
-<div class="countdown" id="timer_5dbe6843" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_5dbecb0d" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
     </textarea>

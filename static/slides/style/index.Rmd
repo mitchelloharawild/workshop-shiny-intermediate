@@ -151,7 +151,7 @@ background-position: top
 .box-12.bg-blond.bottom-margin.center[
 # Shiny layouts are built with Bootstrap
 
-https://getbootstrap.com/
+https://getbootstrap.com/docs/3.4/
 ]
 
 ---
@@ -164,50 +164,119 @@ Bootstrap components allow easy composition of pleasant interfaces.
 
 It is widely used on the web, making many themes and help available online.
 
+Themes: https://bootswatch.com/
+
+Help: https://stackoverflow.com/questions/tagged/bootstrap-4
+
+---
+
+# `r emo::ji("house_with_garden")` Page layouts: the home for content
+
+Shiny offers several page layouts which all use Bootstrap.
+
+.pull-left[
+* `fluidPage()` 
+* `fillPage()`
+]
+.pull-right[
+* `navbarPage()`
+* `fixedPage()`
+]
+
 --
+
+We've seen `fluidPage()` in examples as provides a nice foundation.
+
+`fillPage()` is similar to `fluidPage()` but ensures height coverage.
+
+`navbarPage()` is `fluidPage()` with a top navigation bar.
+
+`fixedPage()` keeps the *grid* width fixed for various display sizes.
+
+---
+
+# `r emo::ji("black_square_button")` The bootstrap grid
 
 The framework achieves responsive design with a **grid based system**.
 
 [![bootstrap grid](resources/bs_grid.png)](https://helenaboitsova.com/uikit-grid-accordance-to-bootstrap-grid/)
 
+The grid contains **12 columns** which content may span across.
 
 ---
 
-# Shiny page layouts
-
-* `fluidPage()` 
-* `fixedPage()`
-* `navbarPage()`
-* `fillPage()`
-
----
-
-# The bootstrap grid
-
-Grid based layouts
+# `r emo::ji("black_square_button")` The bootstrap grid
 
 ```{r, eval = FALSE}
 fluidPage(
   fluidRow(
-    column(6, "content"),
-    column(6, "content")
+    column(6, wellPanel("First content")),
+    column(6, wellPanel("Second content"))
+  ),
+  fluidRow(
+    column(3, wellPanel("Short content")),
+    column(9, wellPanel("Loooong content"))
+  ),
+  do.call(fluidRow, rep(list(column(1, wellPanel("1"))), 12))
+)
+```
+
+![r output bootstrap grid](resources/bs_grid_r.png)
+
+---
+
+# `r emo::ji("black_square_button")` The bootstrap grid
+
+Grids can also be used within grids!
+
+```{r, eval = FALSE}
+fluidPage(
+  fluidRow(
+    column(3, wellPanel("Ordinary column")),
+    column(9, wellPanel("This column has  more columns",
+                        fluidRow(column(6, wellPanel(h1(emo::ji("bee")))),
+                                 column(6, wellPanel(h1(emo::ji("honey")))))
+    ))
   )
 )
 ```
 
+![Nested bootstrap grid](resources/bs_nested_r.png)
 
 ---
 
-# Nesting of grids
+# `r emo::ji("hiking_boot")` (Not-so) secret Bootstrap components
+
+We've seen just a few of many components made available by Bootstrap.
+
+We'll see how to access more components by writing HTML soon.
+
+<hr>
+
+--
+
+The shiny package only provides a few essential components, however more are accessible by writing the HTML directly.
+
+.center.box-12.bg-blond[
+Find all available Bootstrap components here:  
+https://getbootstrap.com/docs/3.4/components/
+]
 
 ---
+class: feature
 
-# Tabs and nav panels
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Re-organise the gallery's inputs using the grid system `r emo::ji("broom")`
+
+1. Use `wellPanel()` to collect related inputs into the same well
+1. Remove the width argument from the buttons and the `span()` to space them. Instead use the bootstrap grid to neatly position these buttons.
+
+]
 
 ```{r}
-tabsetPanel()
-navlistPanel()
-tabPanel()
+countdown(minutes = 5L)
 ```
 
 
@@ -219,7 +288,7 @@ tabPanel()
 
 # Changing ggplot2 colour scheme
 
-```{r}
+```{r, eval = FALSE}
 + theme()
 
 theme_set(
@@ -244,7 +313,7 @@ Shiny is great as it allows you to create useful webpages by writing in one lang
 
 ### CSS
 
-### Javascript
+### JavaScript
 
 
 ---
@@ -331,7 +400,7 @@ element>element   |  `div > p`       |      Select all &lt;p&gt; tags with &lt;d
 Knowing how to identify elements on the web has several uses:
 
 1. Changing the style of the element (what we're doing!)
-1. Modifying the element with Javascript
+1. Modifying the element with JavaScript
 1. Scraping data from the web
 
 It also allows you to see the style applied to existing attributes.
