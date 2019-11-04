@@ -581,7 +581,7 @@ uppercase <- reactive(toupper(input$text))
 `eventReactive()`: Reactive expressions with trigger events (more control)
 
 ```{r, eval = FALSE}
-uppercase <- reactive(input$submit, toupper(input$text))
+uppercase <- eventReactive(input$submit, toupper(input$text))
 # `uppercase()` will only update when `input$submit` changes (user presses a button).
 ```
 

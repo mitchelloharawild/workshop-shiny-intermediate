@@ -17,13 +17,28 @@ fluidPage(
     ),
     
     mainPanel(
-      # Plot output
-      "Frequency of elements in paintings",
-      plotOutput("plot_proportion", height = "800px"),
+      tabsetPanel( 
+        tabPanel("Plot", 
+                 "Frequency of elements in paintings",
+                 plotOutput("plot_proportion", height = "800px")
+        ), 
+        tabPanel("Table", 
+                 # Table output
+                 "Top 10 most common elements",
+                 tableOutput("data_proportion")
+        ),
+        tabPanel("Secret", 
+                 "Shh!"
+        )
+      )
       
-      # Table output
-      "Top 10 most common elements",
-      tableOutput("data_proportion")
+      # # Plot output
+      # "Frequency of elements in paintings",
+      # plotOutput("plot_proportion", height = "800px"),
+      # 
+      # # Table output
+      # "Top 10 most common elements",
+      # tableOutput("data_proportion")
     )
   )
 )

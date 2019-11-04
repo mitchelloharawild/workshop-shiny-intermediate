@@ -5,7 +5,7 @@ ui <- fluidPage(
 )
 server <- function(input, output, session) {
   output$greeting <- renderText({
-    sprintf("Hello %s!", input$name)
+    sprintf("Hello %s", input$name)
   })
 }
 shinyApp(ui, server)

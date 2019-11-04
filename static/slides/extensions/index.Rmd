@@ -1,14 +1,14 @@
 ---
-title: "Extension packages"
+title: "05 Extension packages"
 subtitle: "Powerful features for Shiny with extension libraries."
 author: "Mitchell O'Hara-Wild"
-date: '04/11/2019'
+date: '05/11/2019'
 output:
   xaringan::moon_reader:
     css: ["libs/slides.css", "libs/hex.css", "libs/animate.css"]
     seal: false
     nature:
-      highlightStyle: github
+      highlightStyle: solarized-dark
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false 
@@ -24,6 +24,7 @@ options(htmltools.dir.version = FALSE, width = 120)
 
 library(tidyverse)
 library(shiny)
+library(countdown)
 library(fontawesome)
 
 theme_set(
@@ -55,7 +56,7 @@ theme_set(
 <ul class="hextile clr">
 	<li>
     <div>
-      <h1>03</h1>
+      <h1>05</h1>
       <p style = "padding-top: 30%; font-size: 1.2em">Extension packages</p>
     </div>
   </li>
@@ -79,36 +80,188 @@ Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectr
 ]
 
 ---
+background-image: url("resources/awesome-shiny-extensions.jpg")
+background-size: cover
 
-# Extension packages
+<br>
 
-(There are a lot!)
+.box-12.bg-blond.bottom-margin.center[
+Curated list of extensions packages by Nan Xiao (肖楠)  
+https://github.com/nanxstats/awesome-shiny-extensions
+]
 
-Curated list: https://github.com/nanxstats/awesome-shiny-extensions
+
+---
+class: topic-starter, center
+
+# Packages for theming
 
 ---
 
-# Theming
+# `r emo::ji("art")` Change colour swatches with `shinythemes`
+
+This package provides colour schemes from http://bootswatch.com/.
+
+--
+
+The fastest and easiest way to change the appearance of your app.
+
+To use it, specify the `theme` argument in your **UI's page function**.
+
+```{r, eval = FALSE}
+fluidPage(
+  theme = shinythemes::shinytheme("superhero"),
+  # The rest of your UI code goes here.
+)
+```
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+
+## Pick a style for your app `r emo::ji("art")`
+
+Use `shinythemes` to change the theme for your gallery.
+
+1. Go to http://bootswatch.com/ and choose a theme you like.
+1. Open `06_gallery` and use `shinythemes` to set the app's theme by name.
+
+Hint: Code for setting the theme to "superhero" is shown on the previous page.
+
+<br>
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 3L, seconds = 0L)
+```
 
 ---
 
-# shinythemes
+# `r emo::ji("gear")` Pretty inputs and widgets with shinyWidgets
+
+The shinyWidgets package provides a lot of widgets!
+
+Read their website for all features provided: https://dreamrs.github.io/shinyWidgets/index.html
+
+Their inputs follow the same structure as shiny inputs:
+
+```{r, eval = FALSE}
+library(shinyWidgets)
+switchInput(inputId = "id", value = TRUE)
+```
+
+![](resources/switchInput.png)
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+
+## Give carousel mode a new look `r emo::ji("eye")`
+
+1. Use `switchInput()` from shinyWidgets instead of `checkboxInput()` for carousel mode in the Bob Ross gallery.
+1. Open the app and try it out. Does the feature still work?
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 3L, seconds = 0L)
+```
 
 ---
 
-# shinydashboard + shinydashboardPlus
+# `r emo::ji("bar_chart")` Dashboard layouts with `shinydashboard`
+
+`shinydashboard` provides a new layout for apps based on AdminLTE.
+
+While designed for dashboards, I find the layout suitable for many apps.
+
+```{r, eval = FALSE}
+library(shiny)
+library(shinydashboard)
+
+ui <- dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(),
+  dashboardBody()
+)
+
+server <- function(input, output) { }
+
+shinyApp(ui, server)
+```
+
+The dashboard's UI is split into three parts: header, sidebar and body.
 
 ---
 
-# shinymaterial
+# `r emo::ji("bar_chart")` Dashboard layouts with `shinydashboard`
+
+This layout may look familiar - I use it a lot!
+
+![shinydashboard](resources/shinydashboard.png)
 
 ---
 
-# ShinyWidgets
+# `r emo::ji("bar_chart")` Dashboard layouts with `shinydashboard`
+
+For containing UI elements, `shinydashboard` provides boxes:
+
+* `box()`: A basic box for any content (inputs, plots, tables)
+* `tabBox()`: A box with tabs for content
+* `infoBox()`: Suitable for displaying numbers or short text
+* `valueBox()`: Like `infoBox()`, but emphasises the number
+
+You can also use `shinydashboardPlus` to unlock more features.
 
 ---
 
-# Viz
+# `r emo::ji("bar_chart")` Dashboard layouts with `shinydashboard`
+
+The sidebar is typically used to display page tabs.
+
+```{r, eval = FALSE}
+library(shiny)
+library(shinydashboard)
+ui <- dashboardPage(
+  dashboardHeader(title = "My app"),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+    )
+  ),
+  dashboardBody(
+    tabItem(tabName = "dashboard", "Dashboard tabs"),
+    tabItem(tabName = "widgets", "Widgets tab contents")
+  )
+)
+server <- function(input, output) { }
+shinyApp(ui, server)
+```
+
+
+---
+background-image: url("resources/shinymaterial.png")
+background-size: contain
+background-position: top
+
+<br>
+.box-12.bg-blond.bottom-margin.center[
+Great altenative: `shinymaterial`
+
+https://ericrayanderson.github.io/shinymaterial/
+]
+---
+class: topic-starter, center
+
+# Packages for data visualisation
 
 ---
 
@@ -116,23 +269,16 @@ Curated list: https://github.com/nanxstats/awesome-shiny-extensions
 
 ---
 
-# r2d3
-
----
-
-# dygraphs
+# Great alternative: dygraphs
 
 ---
 
 # leaflet
 
 ---
+class: topic-starter, center
 
-# mapdeck
-
----
-
-# Tables
+# Packages for table displays
 
 ---
 
@@ -140,7 +286,12 @@ Curated list: https://github.com/nanxstats/awesome-shiny-extensions
 
 ---
 
-# gt
+# Great alternative: gt
+
+---
+class: topic-starter, center
+
+# Other notes
 
 ---
 

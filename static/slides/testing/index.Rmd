@@ -357,6 +357,54 @@ There's also a style related error introduced into the UI - oops!
 countdown(minutes = 3L)
 ```
 
+
+---
+class: bg-yellow feature
+
+# `r emo::ji("target")` Today's goals
+
+<br>
+
+.box-12.larger[
+1. Learn how to add **automatic tests** to shiny apps
+1. **More reactive code** with dynamic user interfaces
+1. Customise the **look and feel** of apps
+1. Use **extension packages** to add functionality
+1. **Apply** the workshop content to your own apps
+]
+
+---
+
+.pull-left[
+Workshop day 1
+
+| Time          | Activity                                                      |
+|:--------------|:--------------------------------------------------------------|
+| 09:00 - 09:30 | Arrive and get set up `r emo::ji("computer")`                              |
+| 09:30 - 10:45 | Session 1 `r emo::ji("sparkles")` <br> *Introduction to Shiny (part 1)*             |
+| 10:45 - 11:00 | *Morning tea* `r emo::ji("tea")`                                    |
+| 11:00 - 12:30 | Session 1 `r emo::ji("sparkles")` <br> *Introduction to Shiny (part 2)*                |
+| 12:30 - 13:15 | *Lunch* `r emo::ji("fork_and_knife")`                                      |
+| 13:15 - 14:45 | Session 2 `r emo::ji("boom")` <br> *Reactive programming I*         |
+| 14:45 - 15:00 | *Q&A break* `r emo::ji("question")`                                        |
+| 15:00 - 16:30 | Session 3 `r emo::ji("trophy")` <br> *Troubleshooting and testing*               |
+
+]
+
+.pull-right[
+Workshop day 2
+
+| Time          | Activity                                                      |
+|:--------------|:--------------------------------------------------------------|
+| 09:00 - 09:30 | Arrive and get set up `r emo::ji("computer")`                          |
+| 09:30 - 10:45 | Session 1 `r emo::ji("boom")` <br> *Reactive programming II*   |
+| 10:45 - 11:00 | *Morning tea* `r emo::ji("tea")`                                           |
+| 11:00 - 12:30 | Session 2 `r emo::ji("link")` <br> *Doing more with extension packages*    |
+| 12:30 - 13:15 | *Lunch* `r emo::ji("fork_and_knife")`                                      |
+| 13:15 - 15:00 | Session 3 `r emo::ji("tada")` <br> *Work on your own Shiny app*            |
+]
+
+
 ---
 class: topic-starter, center
 
@@ -415,7 +463,7 @@ testApp("path/to/app")
 
 ```{r, eval = FALSE}
 library(shinytest)
-recordTest("../../apps/gallery/02_gallery/")
+recordTest("../../apps/day_1/gallery/02_gallery/")
 ```
 
 ![testing the gallery](resources/shinytest.png)
@@ -431,7 +479,7 @@ library(shinytest)
 ```
 
 ```{r}
-testApp("../../apps/gallery/02_gallery/")
+testApp("../../apps/day_1/gallery/02_gallery/")
 ```
 
 ---

@@ -1,6 +1,8 @@
 library(shiny)
-
+library(shinythemes)
+library(shinyWidgets)
 fluidPage(
+  theme = shinythemes::shinytheme("superhero"),
   titlePanel("Bob Ross gallery"),
   
   sidebarLayout(
@@ -10,7 +12,7 @@ fluidPage(
       sliderInput("season", "Season:", min = 1, max = 31, value = 1),
       sliderInput("episode", "Episode:", min = 1, max = 13, value = 1),
       
-      checkboxInput("carousel_enable", label = "Carousel mode:", value = FALSE),
+      switchInput("carousel_enable", label = "Carousel mode:", value = FALSE),
       uiOutput("ui_carousel_speed"),
       
       actionButton("btn_previous", label = NULL, icon = icon("arrow-left"), width = "20%"),

@@ -19,7 +19,7 @@ function(input, output, session) {
   
   # 4. Complete the image renderer's code for the current painting's image
   output$painting <- renderImage({
-    list(src = file.path("data", "images", current_painting()$image))
+    list(src = file.path("../", "paintings", current_painting()$image))
   }, deleteFile = FALSE)
   
   # 5. Use observeEvent() to make the buttons switch between paintings

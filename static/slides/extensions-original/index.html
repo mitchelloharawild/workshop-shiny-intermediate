@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>05 Extension packages</title>
+    <title>Reactive programming</title>
     <meta charset="utf-8" />
     <meta name="author" content="Mitchell O’Hara-Wild" />
-    <meta name="date" content="2019-05-11" />
-    <link href="index_files/countdown/countdown.css" rel="stylesheet" />
-    <script src="index_files/countdown/countdown.js"></script>
+    <meta name="date" content="2019-04-11" />
     <link rel="stylesheet" href="libs/slides.css" type="text/css" />
     <link rel="stylesheet" href="libs/hex.css" type="text/css" />
     <link rel="stylesheet" href="libs/animate.css" type="text/css" />
@@ -39,8 +37,8 @@ background-size: cover
 &lt;ul class="hextile clr"&gt;
 	&lt;li&gt;
     &lt;div&gt;
-      &lt;h1&gt;05&lt;/h1&gt;
-      &lt;p style = "padding-top: 30%; font-size: 1.2em"&gt;Extension packages&lt;/p&gt;
+      &lt;h1&gt;02&lt;/h1&gt;
+      &lt;p style = "padding-top: 30%; font-size: 1.2em"&gt;Reactive programming&lt;/p&gt;
     &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
@@ -63,237 +61,148 @@ Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectr
 ]
 
 ---
-background-image: url("resources/awesome-shiny-extensions.jpg")
-background-size: cover
 
-&lt;br&gt;
+# What is reactive programming?
 
-.box-12.bg-blond.bottom-margin.center[
-Curated list of extensions packages by Nan Xiao (肖楠)  
-https://github.com/nanxstats/awesome-shiny-extensions
-]
-
-
----
-class: topic-starter, center
-
-# Packages for theming
+Imperative/declarative
 
 ---
 
-# 🎨 Change colour swatches with `shinythemes`
-
-This package provides colour schemes from http://bootswatch.com/.
-
---
-
-The fastest and easiest way to change the appearance of your app.
-
-To use it, specify the `theme` argument in your **UI's page function**.
+# Example of imperative code with R
 
 
 ```r
-fluidPage(
-  theme = shinythemes::shinytheme("superhero"),
-  # The rest of your UI code goes here.
-)
+x &lt;- 5
+y &lt;- x + 1
+x &lt;- 10
+# What is y? 6 or 11?
 ```
 
 ---
-class: feature
 
-# 🌠 Your turn!
-
-.box-12[
-
-## Pick a style for your app 🎨
-
-Use `shinythemes` to change the theme for your gallery.
-
-1. Go to http://bootswatch.com/ and choose a theme you like.
-1. Open `06_gallery` and use `shinythemes` to set the app's theme by name.
-
-Hint: Code for setting the theme to "superhero" is shown on the previous page.
-
-&lt;br&gt;
-
-]
-
-<div class="countdown" id="timer_5dc01898" style="right:0;bottom:0;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
----
-
-# ⚙️ Pretty inputs and widgets with shinyWidgets
-
-The shinyWidgets package provides a lot of widgets!
-
-Read their website for all features provided: https://dreamrs.github.io/shinyWidgets/index.html
-
-Their inputs follow the same structure as shiny inputs:
+# Example of reactive code with Shiny
 
 
 ```r
-library(shinyWidgets)
-switchInput(inputId = "id", value = TRUE)
+r &lt;- reactiveValues()
+r$x &lt;- 5
+y &lt;- reactive(r$x + 1)
+r$x &lt;- 10
+# What is y? 6 or 11?
 ```
 
-![](resources/switchInput.png)
-
 ---
-class: feature
 
-# 🌠 Your turn!
+# Reactivity with inputs and outputs
 
-.box-12[
-
-## Give carousel mode a new look 👁
-
-1. Use `switchInput()` from shinyWidgets instead of `checkboxInput()` for carousel mode in the Bob Ross gallery.
-1. Open the app and try it out. Does the feature still work?
-
-]
-
-<div class="countdown" id="timer_5dc019b2" style="right:0;bottom:0;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+- Have a shiny input, such as `numericInput("age", label = "Enter your age:", value = 20)`
+- Updates the reactive value input$age
+- Triggers updates of reactive expressions (such as outputs)
 
 ---
 
-# 📊 Dashboard layouts with `shinydashboard`
+# Demo
 
-`shinydashboard` provides a new layout for apps based on AdminLTE.
-
-While designed for dashboards, I find the layout suitable for many apps.
-
-
-```r
-library(shiny)
-library(shinydashboard)
-
-ui &lt;- dashboardPage(
-  dashboardHeader(),
-  dashboardSidebar(),
-  dashboardBody()
-)
-
-server &lt;- function(input, output) { }
-
-shinyApp(ui, server)
-```
-
-The dashboard's UI is split into three parts: header, sidebar and body.
+App with repeated calculation
 
 ---
 
-# 📊 Dashboard layouts with `shinydashboard`
+# Reactive graph
 
-This layout may look familiar - I use it a lot!
-
-![shinydashboard](resources/shinydashboard.png)
+`reactlog`
 
 ---
 
-# 📊 Dashboard layouts with `shinydashboard`
+# Demo
 
-For containing UI elements, `shinydashboard` provides boxes:
-
-* `box()`: A basic box for any content (inputs, plots, tables)
-* `tabBox()`: A box with tabs for content
-* `infoBox()`: Suitable for displaying numbers or short text
-* `valueBox()`: Like `infoBox()`, but emphasises the number
-
-You can also use `shinydashboardPlus` to unlock more features.
+Show reactive graph of app
 
 ---
 
-# 📊 Dashboard layouts with `shinydashboard`
-
-The sidebar is typically used to display page tabs.
-
-
-```r
-library(shiny)
-library(shinydashboard)
-ui &lt;- dashboardPage(
-  dashboardHeader(title = "My app"),
-  dashboardSidebar(
-    sidebarMenu(
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
-    )
-  ),
-  dashboardBody(
-    tabItem(tabName = "dashboard", "Dashboard tabs"),
-    tabItem(tabName = "widgets", "Widgets tab contents")
-  )
-)
-server &lt;- function(input, output) { }
-shinyApp(ui, server)
-```
-
-
----
-background-image: url("resources/shinymaterial.png")
-background-size: contain
-background-position: top
-
-&lt;br&gt;
-.box-12.bg-blond.bottom-margin.center[
-Great altenative: `shinymaterial`
-
-https://ericrayanderson.github.io/shinymaterial/
-]
----
-class: topic-starter, center
-
-# Packages for data visualisation
+# Invalidating reactive objects
 
 ---
 
-# Plotly
+# Reactive expressions
+
+`reactive()`
 
 ---
 
-# Great alternative: dygraphs
+# Demo
+
+Update the app to remove code duplication
 
 ---
 
-# leaflet
+# Demo
 
----
-class: topic-starter, center
-
-# Packages for table displays
+Check the updated reactive graph
 
 ---
 
-# DT
+# Reactive sources, conductors, and endpoints
 
 ---
 
-# Great alternative: gt
+# Reactive contexts
 
----
-class: topic-starter, center
-
-# Other notes
+Error when using reactive values outside of a reactive context
 
 ---
 
-# Any R package
+# Your turn
+
+Provide UI, ask to fill in server code
 
 ---
 
-# tidyverse NSE notes
+# Other reactive functions
+
+---
+
+# Event driven reactivity
+
+fine-grained control of reactivity with `observeEvent()` and `eventReactive()`
+
+---
+
+# isolate
+
+---
+
+# req vs return(NULL)
+
+---
+
+# Rate limiting (debounce/throttle)
+
+---
+
+# invalidateLater() / reactiveTimer()
+
+---
+
+# demos
+
+---
+
+# Dynamic user interface
+
+---
+
+# Updating inputs
+
+---
+
+# Dynamic UI
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="./libs/jquery/jquery.min.js"></script>
 <script src="./libs/slides.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "solarized-dark",
+"highlightStyle": "github",
 "ratio": "16:9",
 "highlightLines": true,
 "countIncrementalSlides": false,

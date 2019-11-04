@@ -1,0 +1,15 @@
+{
+  "input": {
+    "btn_next": 0,
+    "btn_previous": 0
+  },
+  "output": {
+    "painting": {
+      "src": "[image data sha1: f59fe232c27d4cda6c20c81bb6958dfca5267510]"
+    },
+    "title": "S1E1: A Walk in the Woods"
+  },
+  "export": {
+
+  }
+}

@@ -268,17 +268,17 @@ class: feature
 # `r emo::ji("shooting_star")` Your turn!
 
 .box-12[
-## Re-organise the gallery's inputs using the grid system `r emo::ji("broom")`
+## Reorganise gallery's inputs using the grid system `r emo::ji("broom")`
 
 1. Use `wellPanel()` to collect related inputs into the same well
 1. Remove the width argument from the buttons and the `span()` to space them. Instead use the bootstrap grid to neatly position these buttons.
-
+1. Change the grid width of the input section from 4 to 2.
+1. What happens to the grid when you make your web browser smaller?
 ]
 
-```{r}
+```{r, echo = FALSE}
 countdown(minutes = 5L)
 ```
-
 
 ---
 
@@ -356,6 +356,19 @@ The website https://www.twoinchbrush.com/ provides a collection of information a
 
 Use uiOutput() and renderUI() to add links to the painting's URL on twoinchbrush.com.
 ]
+
+---
+
+# Using other bootstrap components
+
+https://getbootstrap.com/docs/3.4/components/
+
+This page shows all bootstrap components available in Shiny.
+
+Most of these don't have convenient high-level R functions.
+
+But you can still access them by writing your own HTML.
+
 
 ---
 
