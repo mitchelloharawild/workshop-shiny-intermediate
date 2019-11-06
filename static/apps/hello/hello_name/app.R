@@ -7,5 +7,9 @@ server <- function(input, output, session) {
   output$greeting <- renderText({
     sprintf("Hello %s", input$name)
   })
+  
+  observe({
+    updateTextInput(session, "name", value = toupper(input$name))
+  })
 }
 shinyApp(ui, server)

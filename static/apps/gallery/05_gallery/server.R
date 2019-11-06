@@ -42,13 +42,24 @@ function(input, output, session) {
     # If the carousel mode is enabled
     if(input$carousel_enable){
       # Invalidate this observer in a few seconds
-      invalidateLater(input$carousel_speed * 1000)
+      invalidateLater(1000)
       # Show the next painting
       rv$painting <- (isolate(rv$painting)) %% NROW(paintings) + 1
     }
   })
   
   # 8. Update the slider values to always represent the current image
+  observe({
+    # From updates to...
+    # rv$painting # or better, current_painting()
+    
+    x <- current_painting()$episode # Make this dynamic
+    x <- readr::parse_number(strsplit(x, "E")[[1]])
+    
+    # We want to...
+    updateSliderInput(session, "season", value = x[1])
+    updateSliderInput(session, "episode", value = x[2])
+  })
   
   # 9. Conditionally display carousel speed
 }

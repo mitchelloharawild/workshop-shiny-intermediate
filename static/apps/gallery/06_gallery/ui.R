@@ -2,7 +2,7 @@ library(shiny)
 library(shinythemes)
 library(shinyWidgets)
 fluidPage(
-  theme = shinythemes::shinytheme("superhero"),
+  theme = shinythemes::shinytheme("spacelab"),
   titlePanel("Bob Ross gallery"),
   
   sidebarLayout(

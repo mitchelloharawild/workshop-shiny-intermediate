@@ -42,7 +42,7 @@ function(input, output, session) {
     # If the carousel mode is enabled
     if(input$carousel_enable){
       # Invalidate this observer in a few seconds
-      invalidateLater(input$carousel_speed * 1000)
+      invalidateLater(1000)
       # Show the next painting
       rv$painting <- (isolate(rv$painting)) %% NROW(paintings) + 1
     }

@@ -32,4 +32,22 @@ function(input, output, session) {
   })
   
   # 6. Add sliders for quickly choosing the season and episode
+  observe({
+    # (input$season-1) * 13 + input$episode
+    episode <- paste0("S", input$season, "E", input$episode)
+    rv$painting <- match(episode, paintings$episode)
+  })
+  
+  observe({
+    req(input$text %in% paintings$episode)
+    
+    rv$painting <- match(input$text, paintings$episode)
+  })
+  
+  observe({
+    if(input$carousel_enable){
+      invalidateLater(input$carousel_speed * 1000)
+      rv$painting <- min(NROW(paintings), isolate(rv$painting) + 1)
+    }
+  })
 }
