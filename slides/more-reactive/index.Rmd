@@ -1,0 +1,703 @@
+---
+title: "04 More reactive programming"
+subtitle: "Adding shiny server code."
+author: "Mitchell O'Hara-Wild"
+date: '04/11/2019'
+output:
+  xaringan::moon_reader:
+    css: ["libs/slides.css", "libs/hex.css", "libs/animate.css"]
+    seal: false
+    nature:
+      highlightStyle: solarized-dark
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false 
+      beforeInit: ["./libs/jquery/jquery.min.js", "./libs/slides.js"]
+      slideNumberFormat: "%current%"
+---
+class: inverse
+background-image: url("resources/title.jpg")
+background-size: cover
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, width = 120)
+
+library(tidyverse)
+library(shiny)
+library(fontawesome)
+library(countdown)
+
+theme_set(
+  theme_grey(base_size = 16) +
+  theme(
+    legend.position = "bottom",
+    plot.background = element_rect(fill = "transparent"),
+    legend.background = element_rect(fill = "transparent")
+  )
+)
+```
+
+
+```{css, echo=FALSE}
+/* custom.css */
+.left-code {
+  color: #777;
+  width: 40%;
+  height: 92%;
+  float: left;
+}
+.right-plot {
+  width: 58%;
+  float: right;
+  padding-left: 1%;
+}
+```
+
+<ul class="hextile clr">
+	<li>
+    <div>
+      <h1>04</h1>
+      <p style = "padding-top: 30%; font-size: 1.2em">Reactive programming II</p>
+    </div>
+  </li>
+  <li>
+    <img src="resources/shiny.svg" alt=""/>
+  </li>
+  <li></li>
+  </li>
+  <li>
+    <div>
+      <p style = "padding-top: 15%; font-size: 1.33em">
+      Mitchell O'Hara‑Wild<br>
+      (Nectric)
+      </p>
+    </div>
+  </li>
+</ul>
+
+.footnote[
+Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectric.com.au/intermediate-shiny)
+]
+
+
+---
+class: topic-starter, center
+
+# Reactive programming (recap)
+
+---
+
+## `mycode.R`: R script
+
+```{r}
+x <- 5
+y <- x + 1
+x <- 10
+# What is y? 6 or 11?
+```
+
+A typical R script evaluates code **sequentially**.
+
+`r hr()`
+
+--
+
+## `server.R`: Shiny server
+
+```{r}
+r <- reactiveValues()
+r$x <- 5
+y <- reactive(r$x + 1)
+r$x <- 10
+# What is y()? 6 or 11?
+```
+
+Reactive code in a Shiny server **keeps values up to date**.
+
+---
+
+# `r emo::ji("mag")` Reactive graphs with `reactlog`
+
+The [reactlog package](https://rstudio.github.io/reactlog/) allows you to visualise an app's **reactive graph**.
+
+```{r}
+library(reactlog)
+```
+
+To **enable logging** of an app's behaviour, set:
+
+```{r}
+options(shiny.reactlog = TRUE)
+```
+
+Then **start, use, and stop your app** to fill the log. View the log with:
+
+```{r, eval = FALSE}
+reactlogShow()
+```
+
+---
+class: center, middle
+
+.box-12.bg-blond[
+# Reactive sources, conductors and endpoints
+]
+
+![reactive graph explanation](resources/react_log_explained.png)
+
+---
+
+# `r emo::ji("computer")` Reactive values (sources)
+
+`input`: UI defined reactive values allowing user's inputs.
+
+```{r, eval = FALSE}
+input$InputID # Access a user's value
+```
+
+`reactiveValues()`: A list of server defined reactive values.
+
+```{r, eval = FALSE}
+rv <- reactiveValues(x = TRUE, y = 10)
+rv$x # Access a reactive value (creates dependency)
+rv$x <- FALSE # Change its value (triggers invalidation)
+```
+
+`reactiveVal()`: A single server defined reactive value.
+
+```{r, eval = FALSE}
+x <- reactiveVal(TRUE)
+x() # Access the reactive value (creates dependency)
+x(FALSE) # Change its value (triggers invalidation)
+```
+
+---
+
+# `r emo::ji("right_arrow")` Reactive contexts (conductors)
+
+`reactive()`: Reactive expressions for intermediate calculations
+
+```{r, eval = FALSE}
+uppercase <- reactive(toupper(input$text))
+```
+
+`eventReactive()`: Reactive expressions with trigger events (more control)
+
+```{r, eval = FALSE}
+uppercase <- eventReactive(input$submit, toupper(input$text))
+# `uppercase()` will only update when `input$submit` changes (user presses a button).
+```
+
+---
+
+# `r emo::ji("boom")` Reactive contexts (endpoints)
+
+`render*()`: Functions to produce UI output
+
+```{r, eval = FALSE}
+output$uppercase <- renderText(toupper(input$text))
+```
+
+`observe()`: Trigger arbitrary code on input changes
+```{r, eval = FALSE}
+observe(print(paste("You clicked submit" input$submit, "times!")))
+```
+
+`observeEvent()`: Trigger arbitrary code with trigger events (more control)
+```{r, eval = FALSE}
+observeEvent(input$submit, print("You clicked submit!"))
+```
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Recalling reactivity `r emo::ji("thought")`
+
+Open the Bob Ross gallery (`02_gallery`) app.
+
+1. Add two sliders to the sidebar panel for faster navigation above the buttons
+1. The first slider is for the painting's season, the second for the episode
+1. Add the server code to make these sliders work with the buttons
+
+Hint 1: There are 31 seasons, each having 13 episodes.
+
+Hint 2: For the buttons to work, the sliders should modify the reactive value.
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 5L)
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `ui.R`: Add the sliders
+```{r, eval = FALSE}
+sliderInput("season", "Season:", min = 1, max = 31, value = 1),
+sliderInput("episode", "Episode:", min = 1, max = 13, value = 1),
+```
+
+### `server.R`: Update the reactive value with observe()
+
+```{r, eval = FALSE}
+observe({
+  chosen_episode <- sprintf("S%iE%i", input$season, input$episode)
+  rv$painting <- match(chosen_episode, paintings$episode)
+})
+```
+
+---
+class: topic-starter, center
+
+# Preventing reactivity
+
+---
+
+# `r emo::ji("sparkles")` Event driven reactivity
+
+In the Bob Ross gallery, we used event triggers for the buttons.
+
+```{r}
+observeEvent(input$btn_previous, {
+  rv$painting <- max(1, rv$painting - 1)
+})
+
+observeEvent(input$btn_next, {
+  rv$painting <- min(NROW(paintings), rv$painting + 1)
+})
+```
+
+---
+
+# `r emo::ji("sparkles")` Event driven reactivity
+
+What is the issue if we had used `observe()` instead?
+
+```{r}
+observe({
+  if (input$btn_previous > 0){
+    rv$painting <- max(1, rv$painting - 1)
+  }
+})
+
+observe({
+  if (input$btn_next > 0){
+    rv$painting <- min(NROW(paintings), rv$painting + 1)
+  }
+})
+```
+
+.center.bg-blond.box-12[
+Not sure? Replace the app code and try it for yourself.
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 1L)
+```
+
+---
+
+# `r emo::ji("infinity")` Beware of the infinite loop!
+
+```{r, eval = FALSE}
+observe({
+  if (input$btn_previous > 0){
+    rv$painting <- max(1, rv$painting - 1) #<<
+  }
+})
+```
+
+--
+
+The observers are reacting to their own change to `rv$painting`!
+
+Updating the reactive value causes a loop, which could crash your app.
+
+--
+
+Previously, `observeEvent()` only updated on the button press event and ignored the change to the reactive value.
+
+---
+
+# Isolating reactive scopes
+
+Event triggers are not available everywhere, and side-effects from `observeEvent()` lead to confusing/bad code.
+
+You can also prevent reactivity using `isolate()`.
+
+```{r, eval = FALSE}
+observe({
+  if (input$btn_previous > 0){
+    rv$painting <- max(1, isolate(rv$painting) - 1) #<<
+  }
+})
+```
+
+The observer now ignores updates to rv$painting when determining it's reactivity.
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Compare reactive graphs for the above methods `r emo::ji("thought")`
+
+Open the Bob Ross gallery (`03_gallery`) app.
+
+1. Create a reactive graph for the button functionality
+1. Modify the buttons to use the (wrong) looping code
+1. How does the reactive graph differ?
+1. What about if we use isolate(rv$painting) instead?
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 3L)
+```
+
+---
+
+# `r emo::ji("racehorse")` Rate limiting (debounce/throttle)
+
+We can also *prevent* reactive triggers happening too frequently.
+
+* Some input updates trigger updates rapidly (typing, sliding).
+* Rate limiting prevents/modifies reactivity during input changes.
+
+--
+
+<br>
+
+.box-12.bg-blond.center[
+This is important if our code is slow/expensive!
+
+The user doesn't want to wait while adjusting inputs.
+]
+
+
+---
+
+# `r emo::ji("racehorse")` Rate limiting (debounce/throttle)
+
+Shiny has inbuilt rate limiting, but this often isn't enough.
+
+There are two rate limiting functions:
+
+* `throttle()`: Throttle limits how frequently updates occur  
+  `ooo-oo-oo---- => o--o--o--o---`
+
+* `debounce()`: Debounce ignores changes until the changes stop  
+  `ooo-oo-oo---- => -----------o-`
+
+--
+
+These functions only work on **reactive expressions** (`reactive()`).
+
+To rate limit an input, you'll need to use `debounce(reactive(input$???), millis)`.
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Rate limit the 'Hello {{name}}' app `r emo::ji("racehorse")`
+
+Open the `hello_rate_limit` app.
+
+1. Add debounced and throttled expressions for the name
+1. Create text renderers for the new text outputs
+1. Start with a 1 second time throttle/debounce window
+1. Use the app and compare outputs as you type
+1. Increase the time window to exaggerate the effect
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 2L, seconds = 30L)
+```
+
+---
+
+# `r emo::ji("stop_sign")` Stopping reactivity
+
+A reactive chain can be stopped using `req()`.
+
+You usually want to stop reactive chains when its inputs will cause errors.
+
+Bad inputs are especially common when the app is initialised, as some more dynamic inputs may not be available yet (giving a `NULL` value).
+
+--
+
+.box-12.bg-blond.center[
+How could this be used to allow text input ("S1E4") to the Bob Ross gallery?
+]
+
+---
+class: topic-starter, center
+
+# Other reactive triggers
+
+---
+
+# `r emo::ji("file_folder")` File monitoring and polling
+
+`reactiveFileReader()` checks for file modification, and triggers data updates.
+
+This is particularly important when working with a continuous flow of data.
+
+```{r, eval = FALSE}
+app_data <- reactiveFileReader(
+  intervalMillis = 1000, session,
+  filePath = "data/app.csv",
+  readFunc = read_csv)
+app_data()
+```
+
+This function will only work with a single file source on the local disk.
+
+---
+
+# `r emo::ji("file_folder")` File monitoring and polling
+
+`reactivePoll()` is more general, but requires a bit more work.
+
+```{r, eval = FALSE}
+reactivePoll(intervalMillis, session, checkFunc, valueFunc)
+```
+
+It allows you to update `valueFunc` based on changes to `checkFunc`.
+
+For example, your data may be spread across multiple files. New data is added daily by adding a new file.
+
+```{r, eval = FALSE}
+app_data <- reactivePoll(
+  intervalMillis = 1000*60*60, session, 
+  checkFunc = function() length(list.files("data")),
+  valueFunc = function() map_dfr(list.files("data"), read_csv))
+app_data()
+```
+
+---
+
+# `r emo::ji("watch")` Time based reactivity
+
+Suppose we wanted to make a clock for our app.
+
+We tried this code for our app, but it doesn't work:
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  "The time is:",
+  textOutput("time")
+)
+
+server <- function(input, output, session){
+  now <- reactive({ Sys.time() })
+  output$time <- renderText({format(now(), format = "%H:%M:%S")})
+}
+
+shinyApp(ui, server)
+```
+
+Why doesn't the time update?
+
+```{r, echo = FALSE}
+countdown(minutes = 0L, seconds = 30L)
+```
+
+---
+
+# `r emo::ji("watch")` Time based reactivity
+
+The clock doesn't update, because `now()` never invalidates.
+
+--
+
+Time-based invalidation can be triggered using `invalidateLater()`.
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  "The time is:",
+  textOutput("time")
+)
+
+server <- function(input, output, session){
+  now <- reactive({
+    invalidateLater(1000) #<<
+    Sys.time() 
+  })
+  output$time <- renderText({format(now(), format = "%H:%M:%S")})
+}
+
+shinyApp(ui, server)
+```
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Painting carousel `r emo::ji("framed_picture")`
+
+Add the server code for a carousel feature in `04_gallery`.
+
+1. The carousel should only run if the carousel mode is checked.
+1. The speed slider should set the seconds each painting is shown.
+1. Once the carousel has reached the last painting, the gallery should start again from the first painting.
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 3L)
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+<br>
+
+### `server.R`: Add the carousel feature
+
+```{r}
+  observe({
+    # If the carousel mode is enabled
+    if(input$carousel_enable){
+      # Invalidate this observer in a few seconds
+      invalidateLater(input$carousel_speed * 1000)
+      # Show the next painting
+      rv$painting <- (isolate(rv$painting)) %% NROW(paintings) + 1
+    }
+  })
+```
+
+---
+class: topic-starter, center
+
+# Dynamic user interface
+
+---
+
+# `r emo::ji("arrows_counterclockwise")` The need for a dynamic user interface
+
+Much like how outputs can be set using the server, it is also possible to **change inputs and layouts using the server**.
+
+We can use this to provide the most relevant information to the user.
+
+<hr>
+
+--
+
+There's a few problems with the new features added to the Bob Ross gallery.
+
+1. The season/episode sliders don't stay updated when the image changes.
+1. We're lucky that all 31 seasons have 13 episodes, but what if they didn't?
+1. There's no need to see the carousel speed if carousel mode isn't enabled.
+
+---
+
+# `r emo::ji("inbox_tray")` Updating inputs from the server
+
+All shiny inputs have a server driven update function.
+
+These functions allow you to change an input's current and allowable values.
+
+<hr>
+
+--
+
+For example, using `updateTextInput()` it is possible to make the user's inputted name use capital letters.
+
+```{r}
+observe({
+  updateTextInput(session, "name", value = toupper(input$name))
+})
+```
+
+---
+
+# `r emo::ji("computer")` Dynamic UI
+
+Much like a plot is added with `plotOutput()` and `renderPlot()`...
+
+.float-right[... UI elements can be added with `uiOutput()` and `renderUI()`!]
+
+<br><hr>
+
+--
+
+This simple feature allows for sophisticated dynamic interfaces.
+
+```{r, eval = FALSE}
+# ui.R
+uiOutput("performance")
+
+# server.R
+output$performance <- renderUI({
+  if (input$user == "employee") {
+    # Show employee dashboard
+  }
+  if (input$user == "manager") {
+    # Show manager dashboard
+  }
+})
+```
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Make the gallery interface dynamic `r emo::ji("arrows_counterclockwise")`
+
+Open the Bob Ross gallery (`05_gallery`) app.
+
+1. Use `updateSliderInput()` to always keep the slider's values updated
+1. Use `uiOutput()`/`renderUI()` to hide the carousel speed when not used
+
+Hint 1: Returning NULL in `renderUI()` will produce no output.
+
+Hint 2: When you first enable the carousel, `input$carousel_speed` does not yet exist. You should stop the reactive chain when `input$carousel` has an invalid value.
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 10L)
+```
+
+
+---
+class: feature
+
+# `r emo::ji("checkered_flag")` Extra time?
+
+.box-12[
+## Work on your own app
+
+Use today's materials to improve your shiny app.
+]
+
+---
+class: feature
+
+# `r emo::ji("last_quarter_moon_with_face")` See you tomorrow!
+
+.box-12[
+## Tomorrow's schedule `r emo::ji("calendar")`
+
+| Time          | Activity                                                      |
+|:--------------|:--------------------------------------------------------------|
+| 09:00 - 09:30 | Arrive and get set up `r emo::ji("computer")`                          |
+| 09:30 - 10:45 | Session 1 `r emo::ji("art")` <br> *Application design and customisation*   |
+| 10:45 - 11:00 | *Morning tea* `r emo::ji("tea")`                                           |
+| 11:00 - 12:30 | Session 2 `r emo::ji("link")` <br> *Doing more with extension packages*    |
+| 12:30 - 13:15 | *Lunch* `r emo::ji("fork_and_knife")`                                      |
+| 13:15 - 15:00 | Session 3 `r emo::ji("tada")` <br> *Work on your own Shiny app*            |
+
+]

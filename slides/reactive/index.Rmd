@@ -1,0 +1,726 @@
+---
+title: "02 Reactive programming"
+subtitle: "Adding shiny server code."
+author: "Mitchell O'Hara-Wild"
+date: '04/11/2019'
+output:
+  xaringan::moon_reader:
+    css: ["libs/slides.css", "libs/hex.css", "libs/animate.css"]
+    seal: false
+    nature:
+      highlightStyle: solarized-dark
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false 
+      beforeInit: ["./libs/jquery/jquery.min.js", "./libs/slides.js"]
+      slideNumberFormat: "%current%"
+---
+class: inverse
+background-image: url("resources/title.jpg")
+background-size: cover
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, width = 120)
+
+library(tidyverse)
+library(shiny)
+library(fontawesome)
+library(countdown)
+
+theme_set(
+  theme_grey(base_size = 16) +
+  theme(
+    legend.position = "bottom",
+    plot.background = element_rect(fill = "transparent"),
+    legend.background = element_rect(fill = "transparent")
+  )
+)
+```
+
+
+```{css, echo=FALSE}
+/* custom.css */
+.left-code {
+  color: #777;
+  width: 40%;
+  height: 92%;
+  float: left;
+}
+.right-plot {
+  width: 58%;
+  float: right;
+  padding-left: 1%;
+}
+```
+
+<ul class="hextile clr">
+	<li>
+    <div>
+      <h1>02</h1>
+      <p style = "padding-top: 30%; font-size: 1.2em">Reactive programming I</p>
+    </div>
+  </li>
+  <li>
+    <img src="resources/shiny.svg" alt=""/>
+  </li>
+  <li></li>
+  </li>
+  <li>
+    <div>
+      <p style = "padding-top: 15%; font-size: 1.33em">
+      Mitchell O'Hara‑Wild<br>
+      (Nectric)
+      </p>
+    </div>
+  </li>
+</ul>
+
+.footnote[
+Materials at [workshop.nectric.com.au/intermediate-shiny](https://workshop.nectric.com.au/intermediate-shiny)
+]
+
+
+---
+class: topic-starter, center
+
+# What is reactive programming?
+
+---
+
+.center[
+# `r emo::ji("question")` How is reactive programming different `r emo::ji("question")`
+]
+
+`r hr()`
+
+--
+
+.sticker-float[![](resources/Rlogo.svg)]
+
+<br>
+
+A typical R script evaluates code **sequentially**.
+
+That is, code is ran from **top to bottom** of the page.
+
+`r hr()`
+
+--
+
+.sticker-float[![](resources/shiny.svg)]
+
+<br>
+
+Reactive code in a Shiny server **keeps values up to date**.
+
+When inputs change, the output **automatically updates**.
+
+---
+
+.center[
+# `r emo::ji("question")` How is reactive programming different `r emo::ji("question")`
+]
+
+`r hr()`
+
+.sticker-float[![](resources/Rlogo.svg)]
+
+## `mycode.R`: R script
+
+```{r}
+x <- 5
+y <- x + 1
+x <- 10
+# What is y? 6 or 11?
+```
+
+`r hr()`
+
+--
+
+.sticker-float[![](resources/shiny.svg)]
+
+## `server.R`: Shiny server
+
+```{r}
+r <- reactiveValues()
+r$x <- 5
+y <- reactive(r$x + 1)
+r$x <- 10
+# What is y()? 6 or 11?
+```
+
+---
+class: middle, center
+
+# Reactive programming is powerful!
+
+# `r emo::ji("muscle")`
+
+## But it can be disorienting...
+
+---
+
+# `r emo::ji("thinking")` Recall: The 'Hello {{name}}!' app
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  textInput("name", "Enter your name: "),
+  textOutput("greeting")
+)
+server <- function(input, output, session) {
+  output$greeting <- renderText({
+    sprintf("Hello %s!", input$name)
+  })
+}
+shinyApp(ui, server)
+```
+
+--
+
+The code within `renderText()` is **reactive**.
+
+Whenever `input$name` changes, the output text will **update automatically**.
+
+
+---
+class: topic-starter, center
+
+# Reactive graphs
+
+---
+
+# `r emo::ji("mag")` A closer look at reactivity with `reactlog`
+
+The [reactlog package](https://rstudio.github.io/reactlog/) allows you to visualise an app's **reactive graph**.
+
+```{r}
+library(reactlog)
+```
+
+To **enable logging** of an app's behaviour, set:
+
+```{r}
+options(shiny.reactlog = TRUE)
+```
+
+Then **start, use, and stop your app** to fill the log. View the log with:
+
+```{r, eval = FALSE}
+reactlogShow()
+```
+
+---
+
+# `r emo::ji("scroll")` Create a reactive graph for 'Hello {{name}}!'
+
+--
+
+.center[
+![React log for hello Mitch](resources/reactlog.png)
+]
+
+---
+class: center, middle
+
+.box-12.bg-blond[
+# How do you interpret a reactive graph?
+]
+
+![reactive graph explanation](resources/react_log_explained.png)
+
+---
+
+# `r emo::ji("bookmark_tabs")` Invalidating reactive objects
+
+Reactive objects are **invalidated** when their **inputs are changed**.
+
+--
+
+In more complicated apps, changing one input can invalidates many objects.
+
+--
+
+When a reactive object is invalidated, their dependency graph is reset.
+
+--
+
+Reactive objects are then re-calculated, adding back any dependencies.
+
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Create a reactive graph of the Bob Ross app! `r emo::ji("twisted_rightwards_arrows")`
+
+1. Start a logging the app's reactivity
+1. Use the app and end the session.
+1. Does the reactive graph look like you expected?
+1. Follow the log in time, what have you learnt about Shiny?
+
+> Hint: 
+> 
+> When making a reactive graph of a new app, you should reset the reactive log. This is done using `reactlogReset()`
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 3L)
+```
+
+---
+class: topic-starter, center
+
+# Reactive expressions
+
+---
+
+# `r emo::ji("stopwatch")` The Bob Ross app is slower than necessary
+
+```{r}
+library(shiny)
+library(tidyverse)
+function(input, output, session) {
+  output$plot_proportion <- renderPlot({
+    elements_prop <- elements %>% #<<
+      filter(between(season, input$seasons[1], input$seasons[2])) %>% #<<
+      group_by(element) %>% #<<
+      summarise(proportion = mean(exists)) %>% #<<
+      arrange(desc(proportion)) %>% #<<
+      mutate(element = fct_reorder(element, proportion))#<<
+    elements_prop %>% 
+      ggplot(aes(x = proportion, y = element)) + 
+      geom_col() +
+      scale_x_continuous(labels = scales::percent, limits = c(0,1))
+  })
+  output$data_proportion <- renderTable({
+    elements %>% #<<
+      filter(between(season, input$seasons[1], input$seasons[2])) %>% #<<
+      group_by(element) %>% #<<
+      summarise(proportion = mean(exists)) %>% #<<
+      arrange(desc(proportion)) %>% #<<
+      mutate(element = fct_reorder(element, proportion)) %>% #<<
+      top_n(10, proportion)
+  })
+}
+```
+
+---
+
+.center.box-12.bg-blond[
+# `r emo::ji("scream")` Repeated code is a recipe for trouble `r emo::ji("scream")`
+]
+
+<br>
+
+The code repetition is problematic for many reasons:
+
+* Requires computation twice when inputs update (twice as slow!)
+* More code introduces more opportunities for bugs
+* Updating the code requires changing two places
+* More difficult to understand the workflow
+
+---
+
+# `r emo::ji("superhero")` Reactive expressions to the rescue
+
+A reactive expression is an **intermediate step** in the reactive workflow.
+
+It accepts inputs and the result can be used as inputs to other reactive code.
+
+--
+
+Reactive expressions are created with the `reactive()` function:
+
+```{r, eval = FALSE}
+elements_prop <- reactive({ #<<
+  elements %>% 
+    filter(between(season, input$seasons[1], input$seasons[2])) %>% 
+    group_by(element) %>% 
+    summarise(proportion = mean(exists)) %>% 
+    arrange(desc(proportion)) %>% 
+    mutate(element = fct_reorder(element, proportion))
+}) #<<
+```
+
+The resulting value can be accessed in renderers with `elements_prop()`.
+
+---
+
+# `r emo::ji("repeat")` The complete shiny graph
+
+<span style="display:inline-block;width:100px;">![](resources/source.png)</span> A reactive **source** brings information to the server from the user.
+
+<!-- These are typically input fields from the UI. -->
+
+<span style="display:inline-block;width:100px;">![](resources/conductor.png)</span> A reactive **conductor** is the intermediate step in calculation.
+
+<!-- These are reactive expressions. -->
+
+<span style="display:inline-block;width:100px;">![](resources/endpoint.png)</span> A reactive **endpoint** provides output to the user.
+
+<!-- These are server rendered values passed to UI outputs. -->
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Replace duplicated code with reactive expressions `r emo::ji("twisted_rightwards_arrows")`
+
+Simplify the server code for the Bob Ross shiny app (`03_bob_ross`).
+
+1. Create two reactive expressions: one for filtering and one for calculations.
+1. Use these reactive expressions to produce the output table and plot.
+1. Look at the reactive graph, are the conductors behaving as expected?
+
+Extension task: what happens in the reactive graph when you switch tabs?
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 7L)
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: The reactive expressions
+
+```{r, eval = FALSE}
+elements_filter <- reactive({ #<<
+  elements %>% 
+    group_by(season, episode) %>% 
+    filter(all(input$elements %in% element[exists])) %>% 
+    filter(between(season, input$seasons[1], input$seasons[2])) %>% 
+    filter(!(element %in% input$elements))
+}) #<<
+elements_prop <- reactive({ #<<
+  elements_filter() %>% #<<
+    group_by(element) %>% 
+    summarise(proportion = mean(exists)) %>% 
+    arrange(desc(proportion)) %>% 
+    mutate(element = fct_reorder(element, proportion))
+}) #<<
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: The output renderers
+
+```{r, eval = FALSE}
+output$plot_proportion <- renderPlot({
+  elements_prop() %>% #<<
+    ggplot(aes(x = proportion, y = element)) + 
+    geom_col() +
+    scale_x_continuous(labels = scales::percent, limits = c(0,1))
+})
+
+output$data_proportion <- renderTable({
+  elements_prop() %>% #<<
+    top_n(10, proportion)
+})
+```
+
+---
+
+# Bonus: How do tabs affect reactivity?
+
+--
+
+The table output is only calculated when it is visible!
+
+--
+
+.center.box-12.bg-blond[
+# `r emo::ji("zzz")` Shiny is extremely lazy `r emo::ji("zzz")`
+]
+
+---
+class: left-side
+
+.pull-left[
+![](resources/treefall.jpg)
+]
+
+.pull-right[
+
+<br><br>
+
+> If a tree falls in a forest and no one is around to hear it, does it make a sound?
+
+]
+
+---
+class: left-side
+
+.pull-left[
+![](resources/treefall.jpg)
+]
+
+.pull-right[
+
+<br><br>
+
+> If a ~~tree falls~~ in a ~~forest~~ and ~~no one is around to hear it~~, does it ~~make a sound~~?
+
+<br>
+
+> If a **shiny output invalidates** in a **tab** and **the tab isn't open**, does it **update**?
+
+.sticker-float[![](resources/shiny.svg)]
+
+]
+---
+
+# `r emo::ji("zzz")` Lazy reactivity
+
+Most of the time, being lazy is great!
+
+It avoids calculating things which would have never been seen.
+
+<br>
+
+--
+
+## `r emo::ji("ghost")` But beware, mistakes may be ghostly.
+
+```{r, eval = FALSE}
+output$greetnig <- renderText({
+  sprintf("Hello %s!", input$name)
+})
+```
+
+`r emo::ji("warning")` Warning: despite the typo, the above code produces no errors!
+
+---
+class: topic-starter, center
+
+# Objects in reactive code
+
+---
+
+# `r emo::ji("computer")` Server specified reactive values
+
+Reactive values are the sources of reactivity in an app.
+
+---
+
+# `r emo::ji("computer")` Server specified reactive values
+
+`input`: UI defined reactive values allowing user's inputs.
+
+```{r, eval = FALSE}
+input$InputID # Access a user's value
+```
+
+--
+
+`reactiveValues()`: A list of server defined reactive values.
+
+```{r, eval = FALSE}
+rv <- reactiveValues(x = TRUE, y = 10)
+rv$x # Access a reactive value (creates dependency)
+rv$x <- FALSE # Change its value (triggers invalidation)
+```
+
+--
+
+`reactiveVal()`: A single server defined reactive value.
+
+```{r, eval = FALSE}
+x <- reactiveVal(TRUE)
+x() # Access the reactive value (creates dependency)
+x(FALSE) # Change its value (triggers invalidation)
+```
+
+---
+
+# `r emo::ji("boom")` Reactive contexts
+
+```{r, echo = FALSE}
+div(class = "error", 
+"Error in .getReactiveEnvironment()$currentContext() : Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)")
+```
+
+--
+
+**reactive values** (such as `input`) can only be used **within a reactive context**.
+
+A **reactive context** is any section of code that will re-run when the **reactive values** it depends upon update, keeping the output up-to-date.
+
+--
+
+We've seen two reactive contexts to far:
+
+1. `render*()`: Functions to produce UI output
+1. `reactive()`: Reactive expressions for intermediate calculations
+
+---
+
+# `r emo::ji("boom")` More reactive contexts
+
+`render*()`: Functions to produce UI output
+
+```{r, eval = FALSE}
+output$uppercase <- renderText(toupper(input$text))
+```
+
+`reactive()`: Reactive expressions for intermediate calculations
+
+```{r, eval = FALSE}
+uppercase <- reactive(toupper(input$text))
+```
+
+`eventReactive()`: Reactive expressions with trigger events (more control)
+
+```{r, eval = FALSE}
+uppercase <- eventReactive(input$submit, toupper(input$text))
+# `uppercase()` will only update when `input$submit` changes (user presses a button).
+```
+
+---
+
+# `r emo::ji("boom")` Observer reactive contexts
+
+`observe()`: Trigger arbitrary code on input changes
+```{r, eval = FALSE}
+observe(print(paste("You clicked submit" input$submit, "times!")))
+```
+
+`observeEvent()`: Trigger arbitrary code with trigger events (more control)
+```{r, eval = FALSE}
+observeEvent(input$submit, print("You clicked submit!"))
+```
+
+.warn[
+`r emo::ji("warning")` **Warning:** observers don't return values, they instead cause side-effects.
+
+Observers can be useful but many side-effects can create complex bugs.
+]
+
+---
+class: feature
+
+# `r emo::ji("shooting_star")` Your turn!
+
+.box-12[
+## Create a gallery of Bob Ross paintings `r emo::ji("picture")`
+
+Write the server code for the `01_gallery` app.
+
+1. Create a reactive value for the current painting's row number
+1. Create a reactive expression that produces the current painting's data
+1. Add a text renderer for the painting title ("S1E1: A Walk in the Woods")
+1. Fill in the image's source to match the current painting
+1. Use `observeEvent()` to make the buttons change the current painting
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 10L)
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: Reactive values and expressions
+
+```{r, eval = FALSE}
+# 1. Create a reactive value for the current painting's row number
+rv <- reactiveValues(painting = 1)
+```
+
+--
+
+```{r, eval = FALSE}
+# 2. Create a reactive expression for the current painting's data
+current_painting <- reactive({
+  paintings[rv$painting,]
+})
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: Output renderers
+
+```{r, eval = FALSE}
+# 3. Create a text renderer for the current painting's title
+output$title <- renderText({
+  sprintf(
+    "%s: %s",
+    current_painting()$episode,
+    current_painting()$title
+  )
+})
+```
+
+--
+
+```{r, eval = FALSE}
+# 4. Complete the image renderer's code for the current painting's image
+output$painting <- renderImage({
+  list(src = file.path("data", "images", current_painting()$image))
+}, deleteFile = FALSE)
+```
+
+---
+
+# `r emo::ji("flag_in_hole")` Possible solution
+
+### `server.R`: Clicky buttons
+
+```{r}
+# 5. Use observeEvent() to make the buttons switch between paintings
+observeEvent(input$btn_previous, {
+  rv$painting <- max(1, rv$painting - 1)
+})
+
+observeEvent(input$btn_next, {
+  rv$painting <- min(NROW(paintings), rv$painting + 1)
+})
+```
+
+---
+class: feature
+
+# `r emo::ji("checkered_flag")` Extra time?
+
+.box-12[
+## Improve reactivity in your own app
+
+1. Look at your app's reactive graph, can it be made more efficient?
+1. Does your app effectively use tabs for user experience and performance?
+1. Can you simplify code using reactive expressions instead of observers?
+]
+
+---
+class: feature
+
+# `r emo::ji("clock12")` Lunch time!
+
+.box-12[
+## Next topic: troubleshooting and testing `r emo::ji("trophy")`
+
+```{r, echo = FALSE}
+div(class = "error", 
+"Error in .getReactiveEnvironment()$currentContext() : Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)")
+```
+```{r, echo = FALSE}
+div(class = "error", 
+"object of type 'closure' is not subsettable")
+```
+
+]
+
+```{r, echo = FALSE}
+countdown(minutes = 45L)
+```

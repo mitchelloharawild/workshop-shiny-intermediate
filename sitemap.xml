@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/materials/prepare/</loc>
+    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/materials/intro/</loc>
+    <lastmod>2019-11-04T09:30:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/materials/extensions/</loc>
+    <lastmod>2019-11-04T09:30:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/materials/reactive/</loc>
+    <lastmod>2019-11-04T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/materials/testing/</loc>
+    <lastmod>2019-11-04T13:15:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/materials/more-reactive/</loc>
+    <lastmod>2019-11-04T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2019-11-04T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/materials/</loc>
+    <lastmod>2019-11-04T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2019-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/people/</loc>
+    <lastmod>2019-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/schedule/</loc>
+    <lastmod>2019-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/license/</loc>
+    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/alex/</loc>
+  </url>
+  
+  <url>
+    <loc>/authors/mitchell/</loc>
+  </url>
+  
+  <url>
+    <loc>/authors/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>/publication_types/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+  </url>
+  
+</urlset>

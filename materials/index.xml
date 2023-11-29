@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Workshop materials on Interactive documents with Shiny</title>
+    <link>/materials/</link>
+    <description>Recent content in Workshop materials on Interactive documents with Shiny</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 04 Nov 2019 15:00:00 +0000</lastBuildDate>
+    
+	    <atom:link href="/materials/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pre-workshop preparation</title>
+      <link>/materials/prepare/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/materials/prepare/</guid>
+      <description>
+
+
+&lt;p&gt;Hello! Welcome to &lt;a href=&#34;../&#34;&gt;Interactive documents with Shiny&lt;/a&gt;, pretty soon we’ll meet for the two day workshop. 🐝&lt;/p&gt;
+&lt;p&gt;Before seeing me at the workshop, please follow the steps below to make sure everything is installed and ready to go:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;If you haven’t previously used &lt;code&gt;tidyverse&lt;/code&gt; packages such as &lt;a href=&#34;https://ggplot2.tidyverse.org/&#34;&gt;ggplot2&lt;/a&gt; or &lt;a href=&#34;https://dplyr.tidyverse.org/&#34;&gt;dplyr&lt;/a&gt;, learn the basics of data transformation and visualisation. A good resource for this is Garrett Grolemund and Hadley Wickham’s &lt;a href=&#34;https://r4ds.had.co.nz/&#34;&gt;R for Data Science&lt;/a&gt; book.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Please bring a laptop that has the following installed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;A recent version of R (&amp;gt;=3.6.0), which is available for free at &lt;a href=&#34;https://cloud.r-project.org/&#34; class=&#34;uri&#34;&gt;https://cloud.r-project.org/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A recent version of RStudio Desktop (&amp;gt;=1.2), available for free (&lt;a href=&#34;https://www.rstudio.com/products/rstudio/download/#download&#34;&gt;RStudio Desktop Open Source License&lt;/a&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The R packages we will use, which you can install by connecting to the internet, opening RStudio, and running at the command line:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(c(&amp;quot;shiny&amp;quot;, &amp;quot;tidyverse&amp;quot;, &amp;quot;reactlog&amp;quot;, &amp;quot;shinytest&amp;quot;, &amp;quot;usethis&amp;quot;, &amp;quot;shinycssloaders&amp;quot;, &amp;quot;shinydashboard&amp;quot;, &amp;quot;shinyWidgets&amp;quot;, &amp;quot;mapdeck&amp;quot;, &amp;quot;DT&amp;quot;, &amp;quot;gt&amp;quot;, &amp;quot;shinythemes&amp;quot;, &amp;quot;shinyjs&amp;quot;, &amp;quot;leaflet&amp;quot;, &amp;quot;plotly&amp;quot;))&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Bring along a shiny app that you’ve worked on before and would like to improve. If you haven’t created a shiny app, you can bring an R script or idea that can an app can be created for.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;During the workshop I’ll provide instructions on how you can download and set up the course material.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>01: Introduction to Shiny</title>
+      <link>/materials/intro/</link>
+      <pubDate>Mon, 04 Nov 2019 09:30:00 +0000</pubDate>
+      
+      <guid>/materials/intro/</guid>
+      <description>
+
+
+&lt;iframe src=&#34;../slides/intro&#34; width=&#34;672&#34; height=&#34;400px&#34;&gt;
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>02: Reactive programming I</title>
+      <link>/materials/reactive/</link>
+      <pubDate>Mon, 04 Nov 2019 11:00:00 +0000</pubDate>
+      
+      <guid>/materials/reactive/</guid>
+      <description>
+
+
+&lt;iframe src=&#34;../slides/reactive&#34; width=&#34;672&#34; height=&#34;400px&#34;&gt;
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>03: Testing and debugging applications</title>
+      <link>/materials/testing/</link>
+      <pubDate>Mon, 04 Nov 2019 13:15:00 +0000</pubDate>
+      
+      <guid>/materials/testing/</guid>
+      <description>
+
+
+&lt;iframe src=&#34;../slides/testing&#34; width=&#34;672&#34; height=&#34;400px&#34;&gt;
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>04: Reactive programming II</title>
+      <link>/materials/more-reactive/</link>
+      <pubDate>Mon, 04 Nov 2019 15:00:00 +0000</pubDate>
+      
+      <guid>/materials/more-reactive/</guid>
+      <description>
+
+
+&lt;iframe src=&#34;../slides/more-reactive&#34; width=&#34;672&#34; height=&#34;400px&#34;&gt;
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>05: Extension packages</title>
+      <link>/materials/extensions/</link>
+      <pubDate>Mon, 04 Nov 2019 09:30:00 +0000</pubDate>
+      
+      <guid>/materials/extensions/</guid>
+      <description>
+
+
+&lt;iframe src=&#34;../slides/extensions&#34; width=&#34;672&#34; height=&#34;400px&#34;&gt;
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
